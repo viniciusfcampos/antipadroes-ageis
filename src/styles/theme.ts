@@ -1,8 +1,9 @@
 const theme = {
   colors: {
-    background: '#121214',
-    text: '#e1e1e6',
-    primary: '#8257e6'
+    background: 'hsl(200, 40%, 95%)',
+    text: 'hsl(200, 10%, 35%)',
+    darkText: 'hsl(220, 10%, 35%)',
+    primary: 'hsl(220, 60%, 60%)'
   }
 }
 

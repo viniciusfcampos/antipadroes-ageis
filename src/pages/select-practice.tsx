@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { Typography } from '@mui/material'
 
 import RocketseatLogo from '../assets/rocketseat.svg'
 
@@ -14,7 +15,7 @@ const Home: React.FC = () => {
       </Head>
 
       <RocketseatLogo />
-      <h1>Selecione a prática!</h1>
+      <Typography variant="h1">Selecione a prática!</Typography>
       <Link href="/">Home</Link>
     </Container>
   )
