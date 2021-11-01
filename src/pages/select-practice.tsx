@@ -14,9 +14,8 @@ const Home: React.FC = () => {
       </Head>
 
       <RocketseatLogo />
-      <h1>ReactJS Structure</h1>
-      <p>A ReactJS + Next.js structure made by Rocketseat.</p>
-      <Link href="/select-practice">Selecionar práticas</Link>
+      <h1>Selecione a prática!</h1>
+      <Link href="/">Home</Link>
     </Container>
   )
 }
