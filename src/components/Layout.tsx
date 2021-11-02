@@ -3,6 +3,7 @@ import { Box } from '@mui/system'
 import React from 'react'
 import styled from 'styled-components'
 import Logo from './Logo'
+import Link from 'next/link'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded'
@@ -38,23 +39,21 @@ const Layout: React.FC = ({ children }) => {
         <Logo />
 
         <Links>
-          <Button href="/" color="secondary" startIcon={<HomeRoundedIcon />}>
-            Home
-          </Button>
-          <Button
-            href="/new-diagnostic"
-            color="secondary"
-            startIcon={<AddCircleRoundedIcon />}
-          >
-            Novo
-          </Button>
-          <Button
-            href="/diagnostics"
-            color="secondary"
-            startIcon={<FolderRoundedIcon />}
-          >
-            Diagnósticos
-          </Button>
+          <Link href="/">
+            <Button color="secondary" startIcon={<HomeRoundedIcon />}>
+              Home
+            </Button>
+          </Link>
+          <Link href="/new-diagnostic">
+            <Button color="secondary" startIcon={<AddCircleRoundedIcon />}>
+              Novo
+            </Button>
+          </Link>
+          <Link href="/diagnostics">
+            <Button color="secondary" startIcon={<FolderRoundedIcon />}>
+              Diagnósticos
+            </Button>
+          </Link>
         </Links>
       </AppBar>
       <BodyContainer>{children}</BodyContainer>
