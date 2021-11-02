@@ -8,6 +8,7 @@ import Document, {
   NextScript
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import Layout from '../components/Layout'
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -44,7 +45,7 @@ export default class MyDocument extends Document {
           <meta charSet="utf-8" />
 
           <link
-            href="https://fonts.googleapis.com/css?family=Poppins:400,500,700,800"
+            href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,800"
             rel="stylesheet"
           />
 

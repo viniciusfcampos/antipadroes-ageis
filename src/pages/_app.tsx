@@ -1,17 +1,19 @@
-import React from 'react'
-import { AppProps } from 'next/app'
-import { ThemeProvider } from 'styled-components'
 import { ThemeProvider as MaterialThemeProvider } from '@mui/material/styles'
-
+import { AppProps } from 'next/app'
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import Layout from '../components/Layout'
 import GlobalStyle from '../styles/global'
-import theme from '../styles/theme'
 import materialTheme from '../styles/material-theme'
+import theme from '../styles/theme'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
       <MaterialThemeProvider theme={materialTheme}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
         <GlobalStyle />
       </MaterialThemeProvider>
     </ThemeProvider>
