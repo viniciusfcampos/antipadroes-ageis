@@ -1,12 +1,15 @@
-import { Button, Container } from '@mui/material'
+import {
+  AddCircleRounded,
+  FolderRounded,
+  HomeRounded,
+  SettingsRounded
+} from '@mui/icons-material'
+import { Button, Container, Divider } from '@mui/material'
 import { Box } from '@mui/system'
+import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import Logo from './Logo'
-import Link from 'next/link'
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded'
 
 const PageContainer = styled(Box)`
   display: grid;
@@ -40,18 +43,24 @@ const Layout: React.FC = ({ children }) => {
 
         <Links>
           <Link href="/">
-            <Button color="secondary" startIcon={<HomeRoundedIcon />}>
+            <Button color="secondary" startIcon={<HomeRounded />}>
               Home
             </Button>
           </Link>
           <Link href="/new-diagnostic">
-            <Button color="secondary" startIcon={<AddCircleRoundedIcon />}>
+            <Button color="secondary" startIcon={<AddCircleRounded />}>
               Novo
             </Button>
           </Link>
           <Link href="/diagnostics">
-            <Button color="secondary" startIcon={<FolderRoundedIcon />}>
+            <Button color="secondary" startIcon={<FolderRounded />}>
               Diagnósticos
+            </Button>
+          </Link>
+          <Divider />
+          <Link href="/settings">
+            <Button color="secondary" startIcon={<SettingsRounded />}>
+              Configurações
             </Button>
           </Link>
         </Links>
