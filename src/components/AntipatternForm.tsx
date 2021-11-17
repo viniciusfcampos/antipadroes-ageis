@@ -85,7 +85,7 @@ const AntipatternForm: React.FC<AntipatternFormProps> = ({
           onBlur={({ target: { value } }) => onBlur('name', value)}
           variant="filled"
           multiline
-          rows={2}
+          maxRows={2}
         />
         <TextField
           label="Descrição"
@@ -95,7 +95,7 @@ const AntipatternForm: React.FC<AntipatternFormProps> = ({
           onBlur={({ target: { value } }) => onBlur('description', value)}
           variant="filled"
           multiline
-          rows={2}
+          minRows={2}
         />
         <TextField
           label="Estratégia de Identificação"
@@ -109,7 +109,7 @@ const AntipatternForm: React.FC<AntipatternFormProps> = ({
           }
           variant="filled"
           multiline
-          rows={2}
+          minRows={2}
         />
         <TextField
           label="Estratégia de Eliminação"
@@ -123,7 +123,7 @@ const AntipatternForm: React.FC<AntipatternFormProps> = ({
           }
           variant="filled"
           multiline
-          rows={2}
+          rows={5}
         />
       </Fields>
     </Container>
