@@ -16,10 +16,10 @@ const Settings: React.FC = () => {
 
   const addNewPractice = async () => {
     const id = await PracticesService.addPractice()
-    setPractices([{ id, name: '' }, ...practices])
+    setPractices([{ id, name: '', antipatterns: [] }, ...practices])
   }
 
-  const handlePracticeDeleted = id => {
+  const handlePracticeRemoved = id => {
     const filteredPractices = practices.filter(p => p.id !== id)
 
     setPractices(filteredPractices)
@@ -41,11 +41,7 @@ const Settings: React.FC = () => {
       />
       <Card>
         {practices.map(p => (
-          <PracticeForm
-            key={p.id}
-            {...p}
-            onPracticeDeleted={handlePracticeDeleted}
-          />
+          <PracticeForm key={p.id} {...p} onRemoved={handlePracticeRemoved} />
         ))}
       </Card>
     </>
