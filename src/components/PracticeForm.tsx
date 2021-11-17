@@ -27,12 +27,19 @@ const NameContainer = styled(Box)`
   grid-auto-flow: column;
   grid-template-columns: 1fr auto;
   grid-gap: 1rem;
+  width: 100%;
 `
 
 const Name = styled(Typography)`
   &.gray {
     color: lightgray;
   }
+`
+
+const Quantity = styled(Typography)`
+  color: lightgray;
+  align-self: center;
+  margin-right: 1.5rem;
 `
 
 const Antipatterns = styled(Box)`
@@ -99,9 +106,12 @@ const PracticeForm: React.FC<PracticeFormProps> = ({
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreRounded />}>
-        <Name variant="h6" className={clsx({ gray: !practiceName })}>
-          {practiceName || 'Nova prática'}
-        </Name>
+        <NameContainer>
+          <Name variant="h6" className={clsx({ gray: !practiceName })}>
+            {practiceName || 'Nova prática'}
+          </Name>
+          <Quantity>{antipatternsList?.length || 0} antipadrões</Quantity>
+        </NameContainer>
       </AccordionSummary>
       <AccordionDetails>
         <Container>

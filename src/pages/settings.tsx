@@ -4,14 +4,20 @@ import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import PracticeForm from '../components/PracticeForm'
+import PracticeFormSkeleton from '../components/PracticeFormSkeleton'
 import { PracticesService } from '../services/PracticesService'
 import { PracticeType } from '../types/PracticeType'
 
 const Settings: React.FC = () => {
   const [practices, setPractices] = useState<PracticeType[]>([])
 
+  const [loading, setLoading] = useState<boolean>(true)
+
   useEffect(() => {
-    PracticesService.getPractices().then(p => setPractices(p))
+    PracticesService.getPractices().then(p => {
+      setLoading(false)
+      setPractices(p)
+    })
   }, [])
 
   const addNewPractice = async () => {
@@ -34,7 +40,12 @@ const Settings: React.FC = () => {
         icon={<SettingsRounded />}
         title="Configurações"
         sideComponent={
-          <Button color="primary" variant="contained" onClick={addNewPractice}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={addNewPractice}
+            disabled={loading}
+          >
             Nova prática
           </Button>
         }
@@ -43,6 +54,16 @@ const Settings: React.FC = () => {
         {practices.map(p => (
           <PracticeForm key={p.id} {...p} onRemoved={handlePracticeRemoved} />
         ))}
+        {loading && (
+          <>
+            <PracticeFormSkeleton />
+            <PracticeFormSkeleton />
+            <PracticeFormSkeleton />
+            <PracticeFormSkeleton />
+            <PracticeFormSkeleton />
+            <PracticeFormSkeleton />
+          </>
+        )}
       </Card>
     </>
   )

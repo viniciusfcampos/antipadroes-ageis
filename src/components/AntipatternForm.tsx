@@ -6,6 +6,7 @@ import { AntipatternType } from '../types/AntipatternType'
 
 const Container = withTheme(styled(Box)`
   display: grid;
+  grid-template-rows: auto 1fr;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.lightBackground};
 `)
