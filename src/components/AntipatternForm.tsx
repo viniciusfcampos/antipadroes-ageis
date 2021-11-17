@@ -5,6 +5,7 @@ import styled, { withTheme } from 'styled-components'
 import { AntipatternType } from '../types/AntipatternType'
 
 const Container = withTheme(styled(Box)`
+  height: 100%;
   display: grid;
   grid-template-rows: auto 1fr;
   border-radius: 4px;

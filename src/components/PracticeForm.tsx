@@ -13,7 +13,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { PracticesService } from '../services/PracticesService'
 import { AntipatternType } from '../types/AntipatternType'
+import { PracticeType } from '../types/PracticeType'
 import AntipatternForm from './AntipatternForm'
+import LazyLoad from 'react-lazyload'
 
 const Container = styled(Box)`
   display: grid;
@@ -52,10 +54,7 @@ const AddAntipattern = styled(Button)`
   min-height: 400px;
 `
 
-type PracticeFormProps = {
-  id: string
-  name: string
-  antipatterns: AntipatternType[]
+type PracticeFormProps = PracticeType & {
   onRemoved: (id: string) => void
 }
 
@@ -130,13 +129,15 @@ const PracticeForm: React.FC<PracticeFormProps> = ({
           </NameContainer>
           <Antipatterns>
             {antipatternsList?.map((a, i) => (
-              <AntipatternForm
-                key={a.id}
-                {...a}
-                index={i + 1}
-                onRemoved={handleAntipatternRemoved}
-                updateField={handleUpdateAntipatternField}
-              />
+              <LazyLoad once height={400} offset={200} key={a.id}>
+                <AntipatternForm
+                  key={a.id}
+                  {...a}
+                  index={i + 1}
+                  onRemoved={handleAntipatternRemoved}
+                  updateField={handleUpdateAntipatternField}
+                />
+              </LazyLoad>
             ))}
             <AddAntipattern
               variant="outlined"
