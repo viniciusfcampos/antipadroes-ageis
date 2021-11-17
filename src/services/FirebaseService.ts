@@ -3,7 +3,7 @@ import database from '../utils/firebase'
 
 export class FirebaseService {
   private static getListWithId = data =>
-    Object.keys(data).map(key => ({ id: key, ...data[key] }))
+    Object.keys(data || {}).map(key => ({ id: key, ...data[key] }))
 
   static get = async (route: string, listProperties = []) => {
     const result = await get(ref(database, route))
