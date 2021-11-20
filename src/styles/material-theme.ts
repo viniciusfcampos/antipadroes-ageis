@@ -41,6 +41,15 @@ const materialTheme = createTheme({
         }
       }
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          '&[data-shrink="true"]': {
+            transform: 'translate(14px, 6px) scale(0.75)'
+          }
+        }
+      }
+    },
     MuiAccordion: {
       styleOverrides: {
         root: {
