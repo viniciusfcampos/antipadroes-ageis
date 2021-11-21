@@ -9,21 +9,6 @@ const Container = styled(Card)`
   display: grid;
   grid-gap: 1rem;
   grid-template-rows: auto 1fr auto;
-  transform: scale(0.75);
-  margin: 0 -16px;
-  opacity: 0.5;
-  transition: all 0.3s ease-in-out;
-  user-select: none;
-
-  &.current {
-    transform: scale(1);
-    margin: 0 16px;
-    opacity: 1;
-
-    &:first-child {
-      margin-left: 0;
-    }
-  }
 `
 
 const Buttons = withTheme(styled(Box)`
@@ -36,7 +21,7 @@ const Buttons = withTheme(styled(Box)`
 `)
 
 type AntipatternCardProps = {
-  className: string
+  className?: string
   index: number
   answer: boolean | null
   handleOnAnswer: (id: string, answer: boolean) => void

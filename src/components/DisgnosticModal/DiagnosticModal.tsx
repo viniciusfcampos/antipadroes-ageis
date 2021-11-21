@@ -3,12 +3,11 @@ import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { PracticeType } from '../../types/PracticeType'
 import { TeamType } from '../../types/TeamType'
-import styled from 'styled-components'
 import AntipatternCard from './AntipatternCard'
 import clsx from 'clsx'
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import CancelIcon from '@mui/icons-material/Cancel'
+import styled from 'styled-components'
+import Carousel from '../Carousel'
 
 const Container = styled(Box)`
   height: 100%;
@@ -36,20 +35,6 @@ const Header = styled(Box)`
   text-align: center;
   color: white;
   user-select: none;
-`
-
-const Controls = styled(Box)`
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: space-between;
-  width: 300px;
-  user-select: none;
-
-  .MuiIconButton-root.Mui-disabled {
-    .MuiSvgIcon-root {
-      opacity: 0.5;
-    }
-  }
 `
 
 const CancelButton = styled(IconButton)`
@@ -91,19 +76,13 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
 
   const handleOnAnswer = (antipatternId, answer) => {
     setAnswers({ ...answers, [antipatternId]: answer })
-    moveCarousel(1)
+    changePosition(1)
   }
 
-  const moveCarousel = step => {
+  const changePosition = step => {
     const nextPosition = step + position
     if (nextPosition >= 0 && nextPosition < practice.antipatterns.length)
       setPosition(nextPosition)
-  }
-
-  const getCarouselPosition = () => {
-    const translateDueToCard = -300 * 0.75 * position
-    const translateDueToMargin = -48 * position
-    return `translateX(${translateDueToCard + translateDueToMargin}px)`
   }
 
   const handleCancel = () => {
@@ -120,33 +99,16 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
           <Typography variant="h4">{practice?.name}</Typography>
           <Typography variant="caption">{team?.name}</Typography>
         </Header>
-        <Antipatterns style={{ transform: getCarouselPosition() }}>
+        <Carousel position={position} handleChangePosition={changePosition}>
           {practice?.antipatterns?.map((a, i) => (
             <AntipatternCard
               {...a}
               index={i}
               answer={answers[a.id]}
               handleOnAnswer={handleOnAnswer}
-              className={clsx({
-                current: position === i
-              })}
             />
           ))}
-        </Antipatterns>
-        <Controls>
-          <IconButton
-            onClick={() => moveCarousel(-1)}
-            disabled={position === 0}
-          >
-            <KeyboardArrowLeftIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => moveCarousel(1)}
-            disabled={position === practice?.antipatterns?.length - 1}
-          >
-            <KeyboardArrowRightIcon />
-          </IconButton>
-        </Controls>
+        </Carousel>
       </Container>
     </Modal>
   )
