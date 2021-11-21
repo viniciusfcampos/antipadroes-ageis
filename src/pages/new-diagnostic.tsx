@@ -21,7 +21,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
 import { PracticesService } from '../services/PracticesService'
 import DiagnosticModal, {
   DiagnosticModalProps
-} from '../components/DisgnosticModal/DiagnosticModal'
+} from '../components/DiagnosticModal/DiagnosticModal'
 
 const Form = styled(Box)`
   display: grid;

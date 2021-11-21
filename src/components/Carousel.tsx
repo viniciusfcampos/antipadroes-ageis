@@ -1,18 +1,13 @@
-import { Box } from '@mui/system'
-import React, { ReactElement } from 'react'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import styled from 'styled-components'
-import clsx from 'clsx'
 import { IconButton } from '@mui/material'
+import { Box } from '@mui/system'
+import React, { ReactElement } from 'react'
+import styled from 'styled-components'
 
 const Container = styled(Box)`
   display: grid;
   grid-gap: 4rem;
-
-  .MuiSvgIcon-root {
-    fill: white;
-  }
 `
 
 const CarouselContainer = styled(Box)`
@@ -44,6 +39,10 @@ const Controls = styled(Box)`
   user-select: none;
   margin: 0 auto;
   width: 300px;
+
+  .MuiSvgIcon-root {
+    fill: white;
+  }
 
   .MuiIconButton-root.Mui-disabled {
     .MuiSvgIcon-root {

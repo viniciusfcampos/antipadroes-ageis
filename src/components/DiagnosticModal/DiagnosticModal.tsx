@@ -1,13 +1,13 @@
+import CancelIcon from '@mui/icons-material/Cancel'
 import { IconButton, Modal, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { PracticeType } from '../../types/PracticeType'
 import { TeamType } from '../../types/TeamType'
-import AntipatternCard from './AntipatternCard'
-import clsx from 'clsx'
-import CancelIcon from '@mui/icons-material/Cancel'
-import styled from 'styled-components'
 import Carousel from '../Carousel'
+import AntipatternCard from './AntipatternCard'
+import FinalCard from './FinalCard'
 
 const Container = styled(Box)`
   height: 100%;
@@ -17,18 +17,11 @@ const Container = styled(Box)`
   justify-items: center;
   grid-gap: 4rem;
 
-  .MuiSvgIcon-root {
-    fill: white;
+  .MuiIconButton-root {
+    .MuiSvgIcon-root {
+      fill: white;
+    }
   }
-`
-
-const Antipatterns = styled(Box)`
-  display: grid;
-  grid-auto-flow: column;
-  transition: all 0.3s ease-in-out;
-  transform: translateX(0);
-  padding-left: calc(50% - 150px);
-  width: 100vw;
 `
 
 const Header = styled(Box)`
@@ -62,17 +55,17 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
 
   useEffect(() => {
     setPosition(0)
-    setAnswers({})
 
-    if (practice) {
-      const answersMap = practice.antipatterns.reduce(
-        (map, a) => ({ ...map, [a.id]: null }),
-        {}
-      )
-
-      setAnswers(answersMap)
-    }
+    if (practice) setAnswers(buildAnswers())
+    else setAnswers({})
   }, [open, team, practice])
+
+  const buildAnswers = () => {
+    return practice.antipatterns.reduce(
+      (map, a) => ({ ...map, [a.id]: null }),
+      {}
+    )
+  }
 
   const handleOnAnswer = (antipatternId, answer) => {
     setAnswers({ ...answers, [antipatternId]: answer })
@@ -81,13 +74,13 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
 
   const changePosition = step => {
     const nextPosition = step + position
-    if (nextPosition >= 0 && nextPosition < practice.antipatterns.length)
+    if (nextPosition >= 0 && nextPosition <= practice.antipatterns.length)
       setPosition(nextPosition)
   }
 
-  const handleCancel = () => {
-    handleClose()
-  }
+  const handleCancel = () => handleClose()
+
+  const isComplete = () => !Object.values(answers).some(a => a === null)
 
   return (
     <Modal open={open}>
@@ -108,6 +101,7 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
               handleOnAnswer={handleOnAnswer}
             />
           ))}
+          <FinalCard />
         </Carousel>
       </Container>
     </Modal>
