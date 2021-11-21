@@ -11,11 +11,11 @@ import { Box } from '@mui/system'
 import clsx from 'clsx'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { PracticesService } from '../services/PracticesService'
 import { AntipatternType } from '../types/AntipatternType'
 import { PracticeType } from '../types/PracticeType'
 import AntipatternForm from './AntipatternForm'
 import LazyLoad from 'react-lazyload'
+import { PracticesService } from '../services/PracticesService'
 
 const Container = styled(Box)`
   display: grid;

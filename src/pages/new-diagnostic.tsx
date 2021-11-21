@@ -19,6 +19,9 @@ import { TeamsService } from '../services/TeamsService'
 import { TeamType } from '../types/TeamType'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
 import { PracticesService } from '../services/PracticesService'
+import DiagnosticModal, {
+  DiagnosticModalProps
+} from '../components/DisgnosticModal/DiagnosticModal'
 
 const Form = styled(Box)`
   display: grid;
@@ -37,6 +40,10 @@ const NewDiagnostic: React.FC = () => {
   const [practice, setPractice] = useState<PracticeType>(null as PracticeType)
 
   const [team, setTeam] = useState<TeamType>(null as TeamType)
+
+  const [diagnosticModalProps, setDiagnosticModalProps] = useState<
+    DiagnosticModalProps
+  >({ open: false })
 
   useEffect(() => {
     PracticesService.getPractices().then(p => {
@@ -78,6 +85,23 @@ const NewDiagnostic: React.FC = () => {
       setTeam(newValue)
     }
   }
+
+  const onStartDiagnostic = async () => {
+    if (!team.id) {
+      const teamId = await TeamsService.addTeam(team)
+      team.id = teamId
+    }
+
+    setDiagnosticModalProps({
+      open: true,
+      team: { ...team },
+      practice: { ...practice }
+    })
+    setPractice(null)
+    setTeam(null)
+  }
+
+  const onCloseDignosticModal = () => setDiagnosticModalProps({ open: false })
 
   return (
     <>
@@ -124,11 +148,20 @@ const NewDiagnostic: React.FC = () => {
               ))}
             </Select>
           </FormControl>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onStartDiagnostic}
+            disabled={!team || !practice}
+          >
             Iniciar
           </Button>
         </Form>
       </Card>
+      <DiagnosticModal
+        {...diagnosticModalProps}
+        handleClose={onCloseDignosticModal}
+      />
     </>
   )
 }

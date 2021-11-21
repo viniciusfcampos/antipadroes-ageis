@@ -5,4 +5,8 @@ export class TeamsService {
   static getTeams = async (): Promise<TeamType[]> => {
     return await FirebaseService.get('teams')
   }
+
+  static addTeam = async (team: TeamType) => {
+    return await FirebaseService.push('teams', team)
+  }
 }

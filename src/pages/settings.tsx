@@ -1,5 +1,5 @@
 import { SettingsRounded } from '@mui/icons-material'
-import { Button, Card, Typography } from '@mui/material'
+import { Button, Card } from '@mui/material'
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
 import PageHeader from '../components/PageHeader'
