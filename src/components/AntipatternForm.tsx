@@ -1,4 +1,13 @@
-import { Button, TextField, Typography } from '@mui/material'
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography
+} from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
 import styled, { withTheme } from 'styled-components'
@@ -36,6 +45,21 @@ const AntipatternNumber = styled(Typography)`
   text-transform: uppercase;
 `
 
+const IdealAnswer = styled(FormControl)`
+  padding: 0 12px;
+
+  .MuiFormLabel-root {
+    transform: scale(0.75);
+    transform-origin: left;
+  }
+
+  .MuiFormGroup-root {
+    display: grid;
+    grid-auto-flow: column;
+    justify-items: start;
+  }
+`
+
 type AntipatternFormProps = AntipatternType & {
   index: number
   onRemoved: (id: string) => void
@@ -48,6 +72,7 @@ const AntipatternForm: React.FC<AntipatternFormProps> = ({
   description,
   identificationStrategy,
   eliminationStrategy,
+  idealAnswer,
   index,
   onRemoved,
   updateField
@@ -57,7 +82,8 @@ const AntipatternForm: React.FC<AntipatternFormProps> = ({
     name,
     description,
     identificationStrategy,
-    eliminationStrategy
+    eliminationStrategy,
+    idealAnswer
   })
 
   const onChange = (field, value) => {
@@ -66,6 +92,11 @@ const AntipatternForm: React.FC<AntipatternFormProps> = ({
 
   const onBlur = (field, value) => {
     updateField(id, field, value)
+  }
+
+  const onRadioChange = (field, value) => {
+    onChange(field, value)
+    onBlur(field, value)
   }
 
   return (
@@ -113,6 +144,21 @@ const AntipatternForm: React.FC<AntipatternFormProps> = ({
           multiline
           minRows={2}
         />
+
+        <IdealAnswer>
+          <FormLabel>Resposta Ideal</FormLabel>
+          <RadioGroup
+            name="idealAnswer"
+            value={antipattern.idealAnswer}
+            onChange={({ target: { value } }) =>
+              onRadioChange('idealAnswer', value)
+            }
+          >
+            <FormControlLabel value={true} control={<Radio />} label="Sim" />
+            <FormControlLabel value={false} control={<Radio />} label="Não" />
+          </RadioGroup>
+        </IdealAnswer>
+
         <TextField
           label="Estratégia de Eliminação"
           name="eliminationStrategy"

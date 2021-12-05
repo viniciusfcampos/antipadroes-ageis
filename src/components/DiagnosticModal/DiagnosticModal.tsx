@@ -2,7 +2,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import { IconButton, Modal } from '@mui/material'
 import { Box } from '@mui/system'
 import clsx from 'clsx'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
 import { PracticeType } from '../../types/PracticeType'
@@ -40,6 +40,7 @@ const CancelButton = styled(IconButton)`
   position: absolute;
   top: 1rem;
   right: 1rem;
+  z-index: 1000;
 `
 
 export type DiagnosticModalProps = Partial<{
@@ -59,10 +60,17 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
     AntipatternAnswerType[]
   >([])
 
+  const [showResults, setShowResults] = useState<boolean>(false)
+
+  useEffect(() => {
+    setShowResults(false)
+  }, [open])
+
   const handleCancel = () => handleClose()
 
   const handleFinish = identifiedAntipatterns => {
     setTeamAntipatterns(identifiedAntipatterns)
+    setShowResults(true)
   }
 
   return (
@@ -72,7 +80,7 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
           <CancelIcon />
         </CancelButton>
 
-        <Tabs className={clsx({ showResults: teamAntipatterns.length > 0 })}>
+        <Tabs className={clsx({ showResults })}>
           <DiagnosticTab
             team={team}
             practices={practices}

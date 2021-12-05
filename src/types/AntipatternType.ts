@@ -4,5 +4,5 @@ export type AntipatternType = {
   description: string
   identificationStrategy: string
   eliminationStrategy: string
-  idealAnswer?: boolean
+  idealAnswer?: string
 }

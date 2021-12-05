@@ -103,7 +103,7 @@ const PracticeForm: React.FC<PracticeFormProps> = ({
   }
 
   return (
-    <Accordion>
+    <Accordion TransitionProps={{ unmountOnExit: true }}>
       <AccordionSummary expandIcon={<ExpandMoreRounded />}>
         <NameContainer>
           <Name variant="h6" className={clsx({ gray: !practiceName })}>
@@ -127,17 +127,16 @@ const PracticeForm: React.FC<PracticeFormProps> = ({
               Deletar
             </Button>
           </NameContainer>
+
           <Antipatterns>
             {antipatternsList?.map((a, i) => (
-              <LazyLoad once height={400} offset={200} key={a.id}>
-                <AntipatternForm
-                  key={a.id}
-                  {...a}
-                  index={i + 1}
-                  onRemoved={handleAntipatternRemoved}
-                  updateField={handleUpdateAntipatternField}
-                />
-              </LazyLoad>
+              <AntipatternForm
+                key={a.id}
+                {...a}
+                index={i + 1}
+                onRemoved={handleAntipatternRemoved}
+                updateField={handleUpdateAntipatternField}
+              />
             ))}
             <AddAntipattern
               variant="outlined"
