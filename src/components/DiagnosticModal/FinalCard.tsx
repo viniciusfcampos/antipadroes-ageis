@@ -26,16 +26,28 @@ const Check = styled(CheckCircleRoundedIcon)`
 
 type FinalCardProps = {
   className?: string
+  message: string
+  action: string
+  color: 'primary' | 'success'
+  onFinish: () => void
 }
 
-const FinalCard: React.FC<FinalCardProps> = ({ className }) => {
+const FinalCard: React.FC<FinalCardProps> = ({
+  message,
+  action,
+  color = 'primary',
+  onFinish,
+  className
+}) => {
   return (
     <Container className={className}>
       <Message>
-        <Check color="primary" />
-        <Typography>Deseja finalizar o diagnóstico?</Typography>
+        <Check color={color} />
+        <Typography>{message}</Typography>
       </Message>
-      <Button variant="contained">Finalizar</Button>
+      <Button onClick={onFinish} color={color} variant="contained">
+        {action}
+      </Button>
     </Container>
   )
 }

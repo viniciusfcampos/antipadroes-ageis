@@ -1,104 +1,137 @@
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded'
 import {
+  Alert,
   Button,
   Card,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+  Checkbox,
+  FormControlLabel,
+  Snackbar,
   TextField,
   Typography
 } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
 import { Box } from '@mui/system'
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
-import PageHeader from '../components/PageHeader'
 import styled from 'styled-components'
-import { PracticeType } from '../types/PracticeType'
-import { TeamsService } from '../services/TeamsService'
-import { TeamType } from '../types/TeamType'
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
-import { PracticesService } from '../services/PracticesService'
 import DiagnosticModal, {
   DiagnosticModalProps
 } from '../components/DiagnosticModal/DiagnosticModal'
+import PageHeader from '../components/PageHeader'
+import { PracticesService } from '../services/PracticesService'
+import { TeamsService } from '../services/TeamsService'
+import { AlertType } from '../types/AlertType'
+import { PracticeType } from '../types/PracticeType'
+import { TeamType } from '../types/TeamType'
 
 const Form = styled(Box)`
   display: grid;
   grid-gap: 1rem;
-  margin: 5rem auto;
-  max-width: 340px;
+  margin: 4rem auto;
+  max-width: 400px;
 `
 
-const filter = createFilterOptions()
+const Practices = styled(Box)`
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 4rem;
+`
+
+type SelectedPracticesType =
+  | {}
+  | {
+      id: string
+      selected: boolean
+    }
 
 const NewDiagnostic: React.FC = () => {
   const [practices, setPractices] = useState<PracticeType[]>([])
 
-  const [teams, setTeams] = useState<TeamType[]>([])
+  const [selectedPractices, setSelectedPractices] = useState<
+    SelectedPracticesType
+  >(null as SelectedPracticesType)
 
-  const [practice, setPractice] = useState<PracticeType>(null as PracticeType)
+  const [team, setTeam] = useState<TeamType>({} as TeamType)
 
-  const [team, setTeam] = useState<TeamType>(null as TeamType)
+  const [alert, setAlert] = useState<AlertType>({} as AlertType)
 
   const [diagnosticModalProps, setDiagnosticModalProps] = useState<
     DiagnosticModalProps
   >({ open: false })
 
   useEffect(() => {
-    PracticesService.getPractices().then(p => {
-      setPractices(p)
-    })
+    PracticesService.getPractices().then(practicesList => {
+      setPractices(practicesList)
 
-    TeamsService.getTeams().then(t => {
-      setTeams(t)
+      resetSelectedPractices(practicesList)
     })
   }, [])
 
-  const onSelectPractice = ({ target: { value } }) => {
-    const selectedPractice = practices.find(p => p.id === value)
-    setPractice(selectedPractice)
+  const resetSelectedPractices = practicesList => {
+    const practicesMap = practicesList.reduce((map, p) => {
+      map[p.id] = true
+      return map
+    }, {})
+
+    setSelectedPractices(practicesMap)
   }
 
-  const filterTeams = (options, params) => {
-    const filtered = filter(options, params)
-
-    const { inputValue } = params
-
-    const isExisting = options.some(option => inputValue === option.title)
-    if (inputValue !== '' && !isExisting) {
-      filtered.push({
-        inputValue,
-        name: `Criar time "${inputValue}"`
-      })
+  const handleSelectPractice = ({ target: { name, checked } }) => {
+    const updatedSelectedPractices = {
+      ...selectedPractices,
+      [name]: checked
     }
 
-    return filtered
+    setSelectedPractices(updatedSelectedPractices)
   }
 
-  const onChangeTeam = (_, newValue) => {
-    if (typeof newValue === 'string') {
-      setTeam({ id: null, name: newValue })
-    } else if (newValue && newValue.inputValue) {
-      setTeam({ id: null, name: newValue.inputValue })
-    } else {
-      setTeam(newValue)
-    }
+  const handleChangeTeam = ({ target: { name, value } }) => {
+    setTeam({ ...team, [name]: value })
+  }
+
+  const isValid = () => {
+    const isNullOrEmpty = text => text?.trim().length === 0
+
+    const teamIsValid =
+      !isNullOrEmpty(team.name) &&
+      !isNullOrEmpty(team.description) &&
+      !!team.size
+
+    const practicesAreValid = Object.values(selectedPractices).some(p => p)
+
+    return teamIsValid && practicesAreValid
   }
 
   const onStartDiagnostic = async () => {
-    if (!team.id) {
-      const teamId = await TeamsService.addTeam(team)
-      team.id = teamId
+    if (!isValid()) {
+      setAlert({
+        open: true,
+        message:
+          'Preencha as informações corretamente e selecione pelo menos uma prática.'
+      })
+      return
     }
+
+    const id = await TeamsService.addTeam(team)
+
+    const selectedPracticesList = Object.keys(selectedPractices)
+      .filter(id => selectedPractices[id])
+      .reduce((list, id) => [...list, practices.find(p => p.id === id)], [])
 
     setDiagnosticModalProps({
       open: true,
-      team: { ...team },
-      practice: { ...practice }
+      team: { ...team, id },
+      practices: selectedPracticesList
     })
-    setPractice(null)
-    setTeam(null)
+
+    resetSelectedPractices(practices)
+
+    setTeam({
+      name: null,
+      description: null,
+      size: null
+    } as TeamType)
   }
 
   const onCloseDignosticModal = () => setDiagnosticModalProps({ open: false })
@@ -111,48 +144,54 @@ const NewDiagnostic: React.FC = () => {
       <PageHeader icon={<AddCircleRoundedIcon />} title="Novo Diagnóstico" />
       <Card>
         <Typography>
-          Para realizar um novo diagnóstico, selecione o time e a prática que
-          serão analisados:
+          Para realizar um novo diagnóstico, insira informações sobre o time e
+          as práticas que serão analisadas:
         </Typography>
         <Form>
-          <Autocomplete
-            value={team}
-            onChange={onChangeTeam}
-            filterOptions={filterTeams}
-            options={teams}
-            getOptionLabel={option => option.name}
-            renderOption={(props, option) => <li {...props}>{option.name}</li>}
-            renderInput={params => (
-              <TextField {...params} variant="filled" label="Time" />
-            )}
-            freeSolo
-            selectOnFocus
-            clearOnBlur
-            handleHomeEndKeys
+          <TextField
+            name="name"
+            label="Nome do Time"
+            value={team.name}
+            onChange={handleChangeTeam}
+            autoFocus
           />
-
-          <FormControl fullWidth>
-            <InputLabel>Prática</InputLabel>
-            <Select
-              variant="filled"
-              value={practice ? practice.id : ''}
-              onChange={onSelectPractice}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {practices.map(p => (
-                <MenuItem value={p.id} key={p.id}>
-                  {p.name}
-                </MenuItem>
+          <TextField
+            name="size"
+            label="Tamanho"
+            placeholder="8 pessoas"
+            value={team.size}
+            onChange={handleChangeTeam}
+            type="number"
+          />
+          <TextField
+            name="description"
+            label="Descrição do Produto"
+            placeholder="Sistema de planejamento logístico de uma empresa atacadista"
+            value={team.description}
+            onChange={handleChangeTeam}
+            rows={4}
+            multiline
+          />
+          <Practices>
+            {selectedPractices &&
+              practices.map(p => (
+                <FormControlLabel
+                  key={p.id}
+                  label={p.name}
+                  control={
+                    <Checkbox
+                      name={p.id}
+                      checked={selectedPractices[p.id]}
+                      onChange={handleSelectPractice}
+                    />
+                  }
+                />
               ))}
-            </Select>
-          </FormControl>
+          </Practices>
           <Button
             variant="contained"
             color="primary"
             onClick={onStartDiagnostic}
-            disabled={!team || !practice}
           >
             Iniciar
           </Button>
@@ -162,6 +201,14 @@ const NewDiagnostic: React.FC = () => {
         {...diagnosticModalProps}
         handleClose={onCloseDignosticModal}
       />
+      <Snackbar
+        open={alert.open}
+        onClose={() => setAlert({ open: false })}
+        anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+        autoHideDuration={6000}
+      >
+        <Alert severity="error">{alert.message}</Alert>
+      </Snackbar>
     </>
   )
 }

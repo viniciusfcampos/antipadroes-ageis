@@ -18,9 +18,28 @@ const materialTheme = createTheme({
     fontFamily: 'Poppins',
     h1: {
       fontWeight: 800
+    },
+    h6: {
+      lineHeight: 1.5
+    },
+    caption: {
+      color: 'gray'
     }
   },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        h4: {
+          marginBottom: '1rem'
+        },
+        h6: {
+          marginBottom: '.5rem'
+        },
+        caption: {
+          lineHeight: 1
+        }
+      }
+    },
     MuiFilledInput: {
       styleOverrides: {
         root: {
@@ -37,15 +56,6 @@ const materialTheme = createTheme({
           },
           '&:after': {
             display: 'none'
-          }
-        }
-      }
-    },
-    MuiFormLabel: {
-      styleOverrides: {
-        root: {
-          '&[data-shrink="true"]': {
-            transform: 'translate(14px, 6px) scale(0.75)'
           }
         }
       }

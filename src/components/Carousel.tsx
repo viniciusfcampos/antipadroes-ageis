@@ -1,6 +1,6 @@
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { IconButton } from '@mui/material'
+import { IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
@@ -39,6 +39,8 @@ const Controls = styled(Box)`
   user-select: none;
   margin: 0 auto;
   width: 300px;
+  color: #fff;
+  align-items: center;
 
   .MuiSvgIcon-root {
     fill: white;
@@ -87,6 +89,9 @@ const Carousel: React.FC<CarouselProps> = ({
         >
           <KeyboardArrowLeftIcon />
         </IconButton>
+        <Typography>
+          {position + 1}/{React.Children.count(children)}
+        </Typography>
         <IconButton
           onClick={() => handleChangePosition(1)}
           disabled={position === React.Children.count(children) - 1}

@@ -1,21 +1,20 @@
 import CancelIcon from '@mui/icons-material/Cancel'
-import { IconButton, Modal, Typography } from '@mui/material'
+import { IconButton, Modal } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { AntipatternType } from '../../types/AntipatternType'
 import { PracticeType } from '../../types/PracticeType'
 import { TeamType } from '../../types/TeamType'
-import Carousel from '../Carousel'
-import AntipatternCard from './AntipatternCard'
-import FinalCard from './FinalCard'
+import DiagnosticTab from './DiagnosticTab'
+import ResultsTab from './ResultsTab'
 
 const Container = styled(Box)`
   height: 100%;
-  display: grid;
-  align-items: center;
-  align-content: center;
-  justify-items: center;
+  width: 100vw;
   grid-gap: 4rem;
+  position: relative;
 
   .MuiIconButton-root {
     .MuiSvgIcon-root {
@@ -24,10 +23,18 @@ const Container = styled(Box)`
   }
 `
 
-const Header = styled(Box)`
-  text-align: center;
-  color: white;
-  user-select: none;
+const Tabs = styled(Box)`
+  display: grid;
+  grid-template-columns: 100vw 100vw;
+  position: absolute;
+  height: 100vh;
+  left: 0;
+
+  transition: left 0.3s ease-in-out;
+
+  &.showResults {
+    left: -100vw;
+  }
 `
 
 const CancelButton = styled(IconButton)`
@@ -39,48 +46,26 @@ const CancelButton = styled(IconButton)`
 export type DiagnosticModalProps = Partial<{
   open: boolean
   team: TeamType
-  practice: PracticeType
+  practices: PracticeType[]
   handleClose: () => void
 }>
 
 const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
   open,
   team,
-  practice,
+  practices,
   handleClose
 }) => {
-  const [position, setPosition] = useState<number>(0)
-
-  const [answers, setAnswers] = useState({})
-
-  useEffect(() => {
-    setPosition(0)
-
-    if (practice) setAnswers(buildAnswers())
-    else setAnswers({})
-  }, [open, team, practice])
-
-  const buildAnswers = () => {
-    return practice.antipatterns.reduce(
-      (map, a) => ({ ...map, [a.id]: null }),
-      {}
-    )
-  }
-
-  const handleOnAnswer = (antipatternId, answer) => {
-    setAnswers({ ...answers, [antipatternId]: answer })
-    changePosition(1)
-  }
-
-  const changePosition = step => {
-    const nextPosition = step + position
-    if (nextPosition >= 0 && nextPosition <= practice.antipatterns.length)
-      setPosition(nextPosition)
-  }
+  const [teamAntipatterns, setTeamAntipatterns] = useState<AntipatternType[]>(
+    []
+  )
 
   const handleCancel = () => handleClose()
 
-  const isComplete = () => !Object.values(answers).some(a => a === null)
+  const handleFinish = identifiedAntipatterns => {
+    setTeamAntipatterns(identifiedAntipatterns)
+    console.log(identifiedAntipatterns)
+  }
 
   return (
     <Modal open={open}>
@@ -88,21 +73,16 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
         <CancelButton onClick={handleCancel}>
           <CancelIcon />
         </CancelButton>
-        <Header>
-          <Typography variant="h4">{practice?.name}</Typography>
-          <Typography variant="caption">{team?.name}</Typography>
-        </Header>
-        <Carousel position={position} handleChangePosition={changePosition}>
-          {practice?.antipatterns?.map((a, i) => (
-            <AntipatternCard
-              {...a}
-              index={i}
-              answer={answers[a.id]}
-              handleOnAnswer={handleOnAnswer}
-            />
-          ))}
-          <FinalCard />
-        </Carousel>
+
+        <Tabs className={clsx({ showResults: teamAntipatterns.length > 0 })}>
+          <DiagnosticTab
+            team={team}
+            practices={practices}
+            onFinish={handleFinish}
+          />
+
+          <ResultsTab team={team} teamAntipatterns={teamAntipatterns} />
+        </Tabs>
       </Container>
     </Modal>
   )

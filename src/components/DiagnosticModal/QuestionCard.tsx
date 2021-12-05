@@ -6,6 +6,7 @@ import { Box } from '@mui/system'
 
 const Container = styled(Card)`
   width: 300px;
+  height: 350px;
   display: grid;
   grid-gap: 1rem;
   grid-template-rows: auto 1fr auto;
@@ -20,14 +21,14 @@ const Buttons = withTheme(styled(Box)`
   background-color: ${({ theme }) => theme.colors.lightBackground};
 `)
 
-type AntipatternCardProps = {
+type QuestionCardProps = {
   className?: string
   index: number
   answer: boolean | null
   handleOnAnswer: (id: string, answer: boolean) => void
 } & AntipatternType
 
-const AntipatternCard: React.FC<AntipatternCardProps> = ({
+const QuestionCard: React.FC<QuestionCardProps> = ({
   id,
   identificationStrategy,
   index,
@@ -61,4 +62,4 @@ const AntipatternCard: React.FC<AntipatternCardProps> = ({
   )
 }
 
-export default AntipatternCard
+export default QuestionCard
