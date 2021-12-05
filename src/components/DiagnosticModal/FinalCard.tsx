@@ -7,7 +7,7 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded'
 const Container = styled(Card)`
   display: grid;
   grid-auto-rows: 1fr auto;
-  width: 300px;
+  width: 320px;
 `
 
 const Message = styled(Box)`
@@ -28,7 +28,7 @@ type FinalCardProps = {
   className?: string
   message: string
   action: string
-  color: 'primary' | 'success'
+  color?: 'primary' | 'success'
   onFinish: () => void
 }
 

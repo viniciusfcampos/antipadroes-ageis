@@ -64,7 +64,7 @@ const DiagnosticTab: React.FC<DiagnosticTabProps> = ({
 
     practices.forEach(practice => {
       practice.antipatterns.forEach(antipattern => {
-        itemsList.push({ practice, antipattern, answer: null })
+        itemsList.push({ ...antipattern, practice, answer: null })
       })
     })
 
@@ -73,7 +73,7 @@ const DiagnosticTab: React.FC<DiagnosticTabProps> = ({
 
   const handleOnAnswer = (antipatternId, answer) => {
     const itemsList = items.map(i => {
-      if (i.antipattern.id === antipatternId) return { ...i, answer }
+      if (i.id === antipatternId) return { ...i, answer }
       else return { ...i }
     })
 
@@ -115,7 +115,7 @@ const DiagnosticTab: React.FC<DiagnosticTabProps> = ({
       <Carousel position={position} handleChangePosition={changePosition}>
         {items.map((item, i) => (
           <QuestionCard
-            {...item.antipattern}
+            {...item}
             index={i}
             answer={item.answer}
             handleOnAnswer={handleOnAnswer}

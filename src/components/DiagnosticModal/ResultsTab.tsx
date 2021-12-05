@@ -41,7 +41,7 @@ const Header = styled(Box)`
 
 export type ResultsTabProps = Partial<{
   team: TeamType
-  teamAntipatterns: AntipatternType[]
+  teamAntipatterns: AntipatternAnswerType[]
 }>
 
 const ResultsTab: React.FC<ResultsTabProps> = ({ team, teamAntipatterns }) => {

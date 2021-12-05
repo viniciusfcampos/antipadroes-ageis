@@ -15,7 +15,7 @@ const CarouselContainer = styled(Box)`
   grid-auto-flow: column;
   transition: all 0.3s ease-in-out;
   transform: translateX(0);
-  width: calc(300px + 32px);
+  width: calc(320px + 32px);
 
   & > * {
     transform: scale(0.75);
@@ -38,7 +38,7 @@ const Controls = styled(Box)`
   justify-content: space-between;
   user-select: none;
   margin: 0 auto;
-  width: 300px;
+  width: 320px;
   color: #fff;
   align-items: center;
 
@@ -64,7 +64,7 @@ const Carousel: React.FC<CarouselProps> = ({
   children
 }) => {
   const getCarouselPosition = () => {
-    const translateDueToCard = -300 * 0.75 * position
+    const translateDueToCard = -320 * 0.75 * position
     const translateDueToMargin = -43 * position
     return `translateX(${translateDueToCard + translateDueToMargin}px)`
   }

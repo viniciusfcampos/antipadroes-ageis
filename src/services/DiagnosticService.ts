@@ -14,7 +14,8 @@ export class DiagnosticService {
         a => a.answer //=== a.antipattern.idealAnswer
       )
       .map((a, i) => ({
-        ...a.antipattern,
+        ...a,
+        practice: { id: a.practice.id, name: a.practice.name },
         order: i + 1,
         status: Status.backlog
       }))

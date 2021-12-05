@@ -1,5 +1,3 @@
-import { Status } from '../utils/enums/Status'
-
 export type AntipatternType = {
   id: string
   name: string
@@ -7,7 +5,4 @@ export type AntipatternType = {
   identificationStrategy: string
   eliminationStrategy: string
   idealAnswer?: boolean
-  useful?: boolean
-  order?: number
-  status?: Status
 }

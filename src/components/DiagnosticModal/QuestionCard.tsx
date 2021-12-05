@@ -1,11 +1,12 @@
 import { Button, Card, Typography } from '@mui/material'
 import styled, { withTheme } from 'styled-components'
 import React from 'react'
-import { AntipatternType } from '../../types/AntipatternType'
 import { Box } from '@mui/system'
+import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
+import CardHeader from './CardHeader'
 
 const Container = styled(Card)`
-  width: 300px;
+  width: 320px;
   height: 350px;
   display: grid;
   grid-gap: 1rem;
@@ -26,11 +27,12 @@ type QuestionCardProps = {
   index: number
   answer: boolean | null
   handleOnAnswer: (id: string, answer: boolean) => void
-} & AntipatternType
+} & AntipatternAnswerType
 
 const QuestionCard: React.FC<QuestionCardProps> = ({
   id,
   identificationStrategy,
+  practice,
   index,
   answer,
   handleOnAnswer,
@@ -42,7 +44,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
   return (
     <Container className={className}>
-      <Typography variant="caption">#{index + 1}</Typography>
+      <CardHeader index={index} practice={practice} />
       <Typography variant="body1">{identificationStrategy}</Typography>
       <Buttons>
         <Button

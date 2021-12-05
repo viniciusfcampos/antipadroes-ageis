@@ -4,6 +4,7 @@ import { Box } from '@mui/system'
 import clsx from 'clsx'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
 import { AntipatternType } from '../../types/AntipatternType'
 import { PracticeType } from '../../types/PracticeType'
 import { TeamType } from '../../types/TeamType'
@@ -29,7 +30,6 @@ const Tabs = styled(Box)`
   position: absolute;
   height: 100vh;
   left: 0;
-
   transition: left 0.3s ease-in-out;
 
   &.showResults {
@@ -56,9 +56,9 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
   practices,
   handleClose
 }) => {
-  const [teamAntipatterns, setTeamAntipatterns] = useState<AntipatternType[]>(
-    []
-  )
+  const [teamAntipatterns, setTeamAntipatterns] = useState<
+    AntipatternAnswerType[]
+  >([])
 
   const handleCancel = () => handleClose()
 
