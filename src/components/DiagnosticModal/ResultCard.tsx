@@ -4,6 +4,8 @@ import React from 'react'
 import CardHeader from './CardHeader'
 import { Box } from '@mui/system'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
+import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded'
+import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded'
 
 const Container = styled(Card)`
   width: 320px;
@@ -69,12 +71,14 @@ const ResultCard: React.FC<ResultCardProps> = ({
       </Content>
       <Buttons>
         <Button
+          startIcon={<ThumbUpAltRoundedIcon />}
           variant={useful === true ? 'outlined' : 'text'}
           onClick={() => onAnswer(true)}
         >
-          Sim
+          Útil
         </Button>
         <Button
+          startIcon={<ThumbDownAltRoundedIcon />}
           variant={useful === false ? 'outlined' : 'text'}
           onClick={() => onAnswer(false)}
         >

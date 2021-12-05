@@ -1,15 +1,12 @@
-import CancelIcon from '@mui/icons-material/Cancel'
-import { IconButton, Modal, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { useRouter } from 'next/dist/client/router'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DiagnosticService } from '../../services/DiagnosticService'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
-import { AntipatternType } from '../../types/AntipatternType'
-import { PracticeType } from '../../types/PracticeType'
 import { TeamType } from '../../types/TeamType'
 import Carousel from '../Carousel'
-import AntipatternCard from './QuestionCard'
 import FinalCard from './FinalCard'
 import ResultCard from './ResultCard'
 
@@ -45,20 +42,39 @@ export type ResultsTabProps = Partial<{
 }>
 
 const ResultsTab: React.FC<ResultsTabProps> = ({ team, teamAntipatterns }) => {
+  const router = useRouter()
+
   const [position, setPosition] = useState<number>(0)
 
+  const [antipatterns, setAntipatterns] = useState<AntipatternAnswerType[]>([
+    ...teamAntipatterns
+  ])
+
+  useEffect(() => setAntipatterns([...teamAntipatterns]), [teamAntipatterns])
+
   const handleOnAnswer = (antipatternId, answer) => {
+    const antipatternsList = antipatterns.map(i => {
+      if (i.id === antipatternId) return { ...i, useful: answer }
+      else return { ...i }
+    })
+
+    setAntipatterns(antipatternsList)
+
     changePosition(1)
   }
 
   const changePosition = step => {
     const nextPosition = step + position
 
-    if (nextPosition >= 0 && nextPosition <= teamAntipatterns.length)
+    if (nextPosition >= 0 && nextPosition <= antipatterns.length)
       setPosition(nextPosition)
   }
 
-  const handleOnFinish = async () => {}
+  const handleOnFinish = async () => {
+    await DiagnosticService.createDiagnostic(team, antipatterns)
+
+    router.push('diagnostics')
+  }
 
   return (
     <Container>
@@ -71,12 +87,12 @@ const ResultsTab: React.FC<ResultsTabProps> = ({ team, teamAntipatterns }) => {
         </Typography>
       </Header>
       <Carousel position={position} handleChangePosition={changePosition}>
-        {teamAntipatterns.map((a, i) => (
+        {antipatterns.map((a, i) => (
           <ResultCard {...a} index={i} handleOnAnswer={handleOnAnswer} />
         ))}
         <FinalCard
-          message="Agora você pode acompanhar o progresso das ações mapeadas por meio do nosso Kanban."
-          action="Acessar Kanban"
+          message="Agora você pode acompanhar o progresso das ações mapeadas por meio de um Kanban."
+          action="Salvar e Acessar Kanban"
           color="success"
           onFinish={handleOnFinish}
         />

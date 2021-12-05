@@ -5,7 +5,6 @@ import clsx from 'clsx'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
-import { AntipatternType } from '../../types/AntipatternType'
 import { PracticeType } from '../../types/PracticeType'
 import { TeamType } from '../../types/TeamType'
 import DiagnosticTab from './DiagnosticTab'
@@ -64,7 +63,6 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
 
   const handleFinish = identifiedAntipatterns => {
     setTeamAntipatterns(identifiedAntipatterns)
-    console.log(identifiedAntipatterns)
   }
 
   return (
