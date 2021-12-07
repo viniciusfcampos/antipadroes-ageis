@@ -21,6 +21,18 @@ export class FirebaseService {
     return list
   }
 
+  static getById = async (route: string, listProperties = []) => {
+    const result = await get(ref(database, route))
+
+    const data = result.val() || {}
+
+    listProperties.forEach(p => {
+      data[p] = this.getListWithId(data[p])
+    })
+
+    return data
+  }
+
   static push = (route: string, body: any): string => {
     return push(ref(database, route), body).key
   }

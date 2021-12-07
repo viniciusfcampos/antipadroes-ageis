@@ -6,7 +6,7 @@ import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
 import CardHeader from './CardHeader'
 
 const Container = styled(Card)`
-  width: 320px;
+  width: 300px;
   height: 350px;
   display: grid;
   grid-gap: 1rem;

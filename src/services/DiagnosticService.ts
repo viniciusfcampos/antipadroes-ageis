@@ -10,11 +10,12 @@ export class DiagnosticService {
     answers: AntipatternAnswerType[]
   ): Promise<AntipatternType[]> => {
     const identifiedAntipatterns = answers
-      .filter(a => a.answer.toString() !== a.idealAnswer)
+      .filter(a => a.answer !== null && a.answer.toString() !== a.idealAnswer)
       .map((a, i) => ({
         ...a,
         practice: { id: a.practice.id, name: a.practice.name },
         order: i + 1,
+        useful: a.useful != false,
         status: Status.backlog
       }))
 
