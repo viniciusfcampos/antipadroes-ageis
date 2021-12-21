@@ -58,7 +58,7 @@ const Home: React.FC = () => {
         <ButtonArea>
           <Link href="/new-diagnostic">
             <Button variant="contained" startIcon={<AddCircleRounded />}>
-              Realizar Diagnóstico
+              Realizar diagnóstico
             </Button>
           </Link>
         </ButtonArea>

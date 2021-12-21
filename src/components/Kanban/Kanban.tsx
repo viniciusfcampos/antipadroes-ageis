@@ -10,7 +10,7 @@ const Container = styled(Box)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 0.5rem;
-  height: 80vh;
+  height: 70vh;
   width: 100%;
   overflow: hidden;
 `
@@ -90,11 +90,7 @@ const Kanban: React.FC<KanbanProps> = ({
   if (!antipatterns) return null
 
   return (
-    <DragDropContext
-      // onDragStart={handleOnDragStart}
-      // onDragUpdate={handleOnDragUpdate}
-      onDragEnd={handleOnDragEnd}
-    >
+    <DragDropContext onDragEnd={handleOnDragEnd}>
       <Container className={className}>
         {columns.map(c => (
           <Column key={c.id} {...c} />

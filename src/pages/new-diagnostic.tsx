@@ -6,10 +6,8 @@ import {
   Checkbox,
   FormControlLabel,
   Snackbar,
-  TextField,
-  Typography
+  TextField
 } from '@mui/material'
-import Autocomplete from '@mui/material/Autocomplete'
 import { Box } from '@mui/system'
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
@@ -27,7 +25,7 @@ import { TeamType } from '../types/TeamType'
 const Form = styled(Box)`
   display: grid;
   grid-gap: 1rem;
-  margin: 4rem auto;
+  margin: 2rem auto;
   max-width: 400px;
 `
 
@@ -35,7 +33,7 @@ const Practices = styled(Box)`
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: 1fr 1fr;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 `
 
 type SelectedPracticesType =
@@ -140,10 +138,6 @@ const NewDiagnostic: React.FC = () => {
       </Head>
       <PageHeader icon={<AddCircleRoundedIcon />} title="Novo Diagnóstico" />
       <Card>
-        <Typography>
-          Para realizar um novo diagnóstico, insira informações sobre o time e
-          as práticas que serão analisadas:
-        </Typography>
         <Form>
           <TextField
             name="name"
