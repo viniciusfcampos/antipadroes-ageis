@@ -4,6 +4,7 @@ import React from 'react'
 import styled, { withTheme } from 'styled-components'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
 import Card from './Card'
+import { Droppable } from 'react-beautiful-dnd'
 
 const ColumnWrapper = withTheme(styled(Box)`
   border-radius: 8px;
@@ -35,23 +36,28 @@ const Header = withTheme(styled(Box)`
 
 type ColumnProps = {
   className?: string
-  id: number
+  id: string
   title: string
   items: AntipatternAnswerType[]
 }
 
-const Column: React.FC<ColumnProps> = ({ title, items, className }) => {
+const Column: React.FC<ColumnProps> = ({ id, title, items, className }) => {
   return (
     <ColumnWrapper className={className}>
       <Header>
         <Typography variant="h6">{title}</Typography>
         <Typography variant="caption">{items.length}</Typography>
       </Header>
-      <ColumnBody>
-        {items.map((i, index) => (
-          <Card key={i.id} index={index} {...i} />
-        ))}
-      </ColumnBody>
+      <Droppable droppableId={id}>
+        {provided => (
+          <ColumnBody ref={provided.innerRef} {...provided.droppableProps}>
+            {items.map((i, index) => (
+              <Card key={i.id} index={index} {...i} />
+            ))}
+            {provided.placeholder}
+          </ColumnBody>
+        )}
+      </Droppable>
     </ColumnWrapper>
   )
 }

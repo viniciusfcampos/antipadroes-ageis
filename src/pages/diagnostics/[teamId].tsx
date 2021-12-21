@@ -8,6 +8,7 @@ import DiagnosticItem from '../../components/DiagnosticsTable/DiagnosticItem'
 import DiagnosticsTable from '../../components/DiagnosticsTable/DiagnosticsTable'
 import Kanban from '../../components/Kanban/Kanban'
 import PageHeader from '../../components/PageHeader'
+import { DiagnosticService } from '../../services/DiagnosticService'
 import { TeamsService } from '../../services/TeamsService'
 import { TeamType } from '../../types/TeamType'
 
@@ -31,13 +32,17 @@ const TeamDiagnostic: React.FC = () => {
       TeamsService.getTeam(teamId as string).then(t => setDiagnostic(t))
   }, [teamId])
 
+  const handleUpdate = antipatterns => {
+    DiagnosticService.updateDiagnostic(teamId as string, antipatterns)
+  }
+
   return (
     <>
       <Head>
         <title>Diagnóstico - {diagnostic?.name}</title>
       </Head>
       <PageHeader icon={<FolderRoundedIcon />} title={diagnostic?.name} />
-      <Kanban antipatterns={diagnostic?.antipatterns} />
+      <Kanban antipatterns={diagnostic?.antipatterns} onUpdate={handleUpdate} />
     </>
   )
 }

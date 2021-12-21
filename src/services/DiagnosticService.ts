@@ -11,10 +11,10 @@ export class DiagnosticService {
   ): Promise<AntipatternType[]> => {
     const identifiedAntipatterns = answers
       .filter(a => a.answer !== null && a.answer.toString() !== a.idealAnswer)
-      .map((a, i) => ({
+      .map(a => ({
         ...a,
         practice: { id: a.practice.id, name: a.practice.name },
-        order: i + 1,
+        order: null,
         useful: a.useful != false,
         status: Status.backlog
       }))
@@ -24,5 +24,16 @@ export class DiagnosticService {
     })
 
     return identifiedAntipatterns
+  }
+
+  static updateDiagnostic = async (
+    teamId: string,
+    antipatterns: AntipatternAnswerType[]
+  ): Promise<AntipatternType[]> => {
+    await FirebaseService.update({
+      [`teams/${teamId}/antipatterns`]: antipatterns
+    })
+
+    return antipatterns
   }
 }

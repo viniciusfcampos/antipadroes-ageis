@@ -49,16 +49,21 @@ const MiniKanban: React.FC<MiniKanbanProps> = ({ antipatterns, className }) => {
 
   let percentage = {}
 
-  let totalByStatus = {}
+  let totalByStatus: { [key: number]: number } = {}
 
   if (total > 0) {
     statuses.forEach(s => {
       totalByStatus[s] = useful.filter(a => a.status === s).length
       percentage[s] = (totalByStatus[s] / total) * 100
     })
-  }
 
-  console.log(antipatterns, percentage)
+    const maxTotal = Math.max(...Object.values(totalByStatus))
+
+    statuses.forEach(s => {
+      totalByStatus[s] = useful.filter(a => a.status === s).length
+      percentage[s] = (totalByStatus[s] / maxTotal) * 100
+    })
+  }
 
   return (
     <Container className={className}>

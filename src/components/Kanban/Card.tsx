@@ -2,6 +2,7 @@ import { Card as MuiCard, Divider, Typography } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
+import { Draggable } from 'react-beautiful-dnd'
 
 const Container = styled(MuiCard)`
   padding: 1rem;
@@ -24,19 +25,28 @@ type CardProps = AntipatternAnswerType & {
 
 const Card: React.FC<CardProps> = ({
   index,
+  id,
   practice,
   name,
   eliminationStrategy
 }) => {
   return (
-    <Container>
-      <Typography variant="caption">
-        #{index + 1} - {practice?.name}
-      </Typography>
-      <Divider />
-      <Name>{name}</Name>
-      <Action>{eliminationStrategy}</Action>
-    </Container>
+    <Draggable draggableId={id} index={index}>
+      {provided => (
+        <Container
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <Typography variant="caption">
+            #{index + 1} - {practice?.name}
+          </Typography>
+          <Divider />
+          <Name>{name}</Name>
+          <Action>{eliminationStrategy}</Action>
+        </Container>
+      )}
+    </Draggable>
   )
 }
 
