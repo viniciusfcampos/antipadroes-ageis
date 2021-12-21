@@ -94,9 +94,7 @@ const NewDiagnostic: React.FC = () => {
     const isNullOrEmpty = text => text?.trim().length === 0
 
     const teamIsValid =
-      !isNullOrEmpty(team.name) &&
-      !isNullOrEmpty(team.description) &&
-      !!team.size
+      !isNullOrEmpty(team.name) && !isNullOrEmpty(team.description)
 
     const practicesAreValid = Object.values(selectedPractices).some(p => p)
 
@@ -129,8 +127,7 @@ const NewDiagnostic: React.FC = () => {
 
     setTeam({
       name: null,
-      description: null,
-      size: null
+      description: null
     } as TeamType)
   }
 
@@ -154,14 +151,6 @@ const NewDiagnostic: React.FC = () => {
             value={team.name}
             onChange={handleChangeTeam}
             autoFocus
-          />
-          <TextField
-            name="size"
-            label="Tamanho"
-            placeholder="8 pessoas"
-            value={team.size}
-            onChange={handleChangeTeam}
-            type="number"
           />
           <TextField
             name="description"

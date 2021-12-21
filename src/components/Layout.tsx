@@ -4,7 +4,7 @@ import {
   HomeRounded,
   SettingsRounded
 } from '@mui/icons-material'
-import { Button, Container, Divider } from '@mui/material'
+import { Button, Container, Divider, IconButton } from '@mui/material'
 import { Box } from '@mui/system'
 import Link from 'next/link'
 import React from 'react'
@@ -15,6 +15,12 @@ const PageContainer = styled(Box)`
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: auto 1fr;
+  height: 100vh;
+  overflow: hidden;
+`
+
+const LogoWrapper = styled(Box)`
+  cursor: pointer;
 `
 
 const AppBar = styled(Box)`
@@ -33,13 +39,19 @@ const Links = styled(Box)`
 
 const BodyContainer = styled(Container)`
   padding-top: 6rem;
+  padding-bottom: 4rem;
+  overflow: auto;
 `
 
 const Layout: React.FC = ({ children }) => {
   return (
     <PageContainer>
       <AppBar>
-        <Logo />
+        <Link href="/">
+          <LogoWrapper>
+            <Logo />
+          </LogoWrapper>
+        </Link>
 
         <Links>
           <Link href="/">

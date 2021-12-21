@@ -8,7 +8,7 @@ import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded'
 import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded'
 
 const Container = styled(Card)`
-  width: 320px;
+  width: 300px;
   height: 540px;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
