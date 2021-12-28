@@ -23,6 +23,10 @@ const Content = styled(Box)`
   overflow: auto;
   margin: 0 -2rem;
   padding: 0 2rem 2rem;
+
+  .MuiTypography-caption {
+    display: block;
+  }
 `
 
 const Action = styled(Typography)`

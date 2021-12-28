@@ -4,10 +4,10 @@ import { styled } from '@mui/system'
 import Head from 'next/head'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import DiagnosticsTable from '../../components/DiagnosticsTable/DiagnosticsTable'
-import PageHeader from '../../components/PageHeader'
-import { TeamsService } from '../../services/TeamsService'
-import { TeamType } from '../../types/TeamType'
+import DiagnosticsTable from '../components/DiagnosticsTable/DiagnosticsTable'
+import PageHeader from '../components/PageHeader'
+import { TeamsService } from '../services/TeamsService'
+import { TeamType } from '../types/TeamType'
 
 const Card = styled(MuiCard)`
   padding: 0;

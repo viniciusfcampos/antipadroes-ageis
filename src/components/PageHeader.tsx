@@ -24,7 +24,7 @@ const TitleContainer = styled(Box)`
 const Title = styled(Typography)`
   font-size: 1rem;
   font-weight: 600;
-  line-height: 1.2srem;
+  line-height: 1.2rem;
 `
 
 type PageHeaderProps = {

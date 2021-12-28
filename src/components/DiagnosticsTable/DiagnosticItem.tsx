@@ -53,7 +53,7 @@ const DiagnosticItem: React.FC<DiagnosticItemProps> = ({
 
   const totalUseful = antipatterns.filter(a => a.useful).length
 
-  const onRedirect = () => router.push(`/diagnostics/${id}`)
+  const onRedirect = () => router.push(`/diagnostic-result?teamId=${id}`)
 
   return (
     <Container className={className} onClick={onRedirect}>

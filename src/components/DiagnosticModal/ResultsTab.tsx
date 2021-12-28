@@ -73,7 +73,7 @@ const ResultsTab: React.FC<ResultsTabProps> = ({ team, teamAntipatterns }) => {
   const handleOnFinish = async () => {
     await DiagnosticService.createDiagnostic(team, antipatterns)
 
-    router.push(`diagnostics/${team.id}`)
+    router.push(`diagnostic-result?teamId=${team.id}`)
   }
 
   return (

@@ -34,9 +34,6 @@ const materialTheme = createTheme({
         },
         h6: {
           marginBottom: '.5rem'
-        },
-        caption: {
-          lineHeight: 1
         }
       }
     },
