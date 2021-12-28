@@ -1,11 +1,12 @@
 import { SearchOffRounded } from '@mui/icons-material'
 import { Input, TextField, Typography } from '@mui/material'
-import { Box, styled } from '@mui/system'
+import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { withTheme } from 'styled-components'
 import { TeamType } from '../../types/TeamType'
 import SearchField from '../SearchField'
 import DiagnosticItem from './DiagnosticItem'
+import styled from 'styled-components'
 
 const Table = styled(Box)`
   display: grid;
