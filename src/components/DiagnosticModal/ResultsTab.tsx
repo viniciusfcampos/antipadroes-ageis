@@ -33,6 +33,7 @@ const Header = styled(Box)`
 
   .MuiTypography-root {
     color: white;
+    display: block;
   }
 `
 

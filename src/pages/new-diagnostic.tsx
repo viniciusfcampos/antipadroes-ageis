@@ -175,6 +175,7 @@ const NewDiagnostic: React.FC = () => {
             variant="contained"
             color="primary"
             onClick={onStartDiagnostic}
+            disabled={!team.name || !team.description}
           >
             Iniciar
           </Button>

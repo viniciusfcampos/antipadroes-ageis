@@ -29,6 +29,7 @@ const Container = withTheme(styled(Box)`
 
   .MuiTypography-root {
     margin: 0;
+    display: block;
   }
 `)
 

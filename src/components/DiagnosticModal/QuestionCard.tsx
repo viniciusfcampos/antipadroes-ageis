@@ -1,6 +1,6 @@
 import { Button, Card, Typography } from '@mui/material'
 import styled, { withTheme } from 'styled-components'
-import React from 'react'
+import React, { useState } from 'react'
 import { Box } from '@mui/system'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
 import CardHeader from './CardHeader'
@@ -15,11 +15,16 @@ const Container = styled(Card)`
 
 const Buttons = withTheme(styled(Box)`
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: .5rem;
   grid-auto-flow: column;
   margin: 0 -2rem -1.5rem;
   padding: 1rem 2rem;
   background-color: ${({ theme }) => theme.colors.lightBackground};
+
+  .MuiButton-outlined {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
 `)
 
 type QuestionCardProps = {
@@ -36,11 +41,23 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   index,
   answer,
   handleOnAnswer,
+  idealAnswer,
   className
 }) => {
-  const onAnswer = (answer: boolean) => {
-    handleOnAnswer(id, answer)
+
+  const [optionOutlined, setOptionOutlined] = useState<string | null>(null)
+
+  const onAnswer = (answer: string) => {
+    let answerValue = false;
+
+    if (answer === 'true') answerValue = true
+    else if (answer === 'sometimes') answerValue = !(idealAnswer === 'true')
+    
+    setOptionOutlined(answer)
+    handleOnAnswer(id, answerValue)
   }
+
+  const getVariant = (answer) => optionOutlined === answer ? 'outlined' : 'text'
 
   return (
     <Container className={className}>
@@ -48,14 +65,20 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       <Typography variant="body1">{identificationStrategy}</Typography>
       <Buttons>
         <Button
-          variant={answer === true ? 'outlined' : 'text'}
-          onClick={() => onAnswer(true)}
+          variant={getVariant('true')}
+          onClick={() => onAnswer('true')}
         >
           Sim
         </Button>
         <Button
-          variant={answer === false ? 'outlined' : 'text'}
-          onClick={() => onAnswer(false)}
+          variant={getVariant('sometimes')}
+          onClick={() => onAnswer('sometimes')}
+        >
+          Ás vezes
+        </Button>
+        <Button
+          variant={getVariant('false')}
+          onClick={() => onAnswer('false')}
         >
           Não
         </Button>

@@ -8,6 +8,10 @@ export default createGlobalStyle`
     outline: none;
   }
 
+  html {
+    min-width: 1200px;
+  }
+
   body {
     background: ${props => props.theme.colors.background};
     color: ${props => props.theme.colors.text};
