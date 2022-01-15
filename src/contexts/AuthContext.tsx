@@ -9,6 +9,7 @@ import { initializeFirebase } from '../utils/firebase'
 
 const AuthContext = createContext({
   authenticated: false,
+  adminAuthenticated: false,
   user: null,
   loading: true,
   signIn: async (email: string, password: string) => { },
@@ -52,6 +53,7 @@ const AuthProvider = ({ children }) => {
 
   const context = {
     authenticated: !!user,
+    adminAuthenticated: user && user.email === 'admin@ufmg.br',
     user,
     loading,
     signIn,

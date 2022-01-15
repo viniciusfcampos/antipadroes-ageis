@@ -1,12 +1,11 @@
 import CancelIcon from '@mui/icons-material/Cancel'
 import { Card as MuiCard, IconButton, Modal, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useRouter } from 'next/router'
-import { UserService } from '../services/UserService'
-import Button from './Button'
 import { useAuth } from '../contexts/AuthContext'
+import Button from './Button'
 
 const Container = styled(Box)`
   height: 100%;
@@ -14,7 +13,6 @@ const Container = styled(Box)`
   display: grid;
   align-content: center;
   justify-content: center;
-
 
   .MuiIconButton-root {
     .MuiSvgIcon-root {
@@ -34,14 +32,20 @@ const Card = styled(MuiCard)`
 `
 
 const ErrorArea = styled(Box)`
-  min-height: 1.5rem;
+  min-height: 2.5rem;
+
+  .MuiTypography-caption {
+    display: block;
+  }
 `
 
 const CancelButton = styled(IconButton)`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000;
+  && {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+  }
 `
 
 export type SignInModalProps = Partial<{
@@ -53,11 +57,11 @@ const SignInModal: React.FC<SignInModalProps> = ({
   open,
   handleClose
 }) => {
-  const [email, setEmail] = useState(null)
+  const [email, setEmail] = useState('')
 
-  const [password, setPassword] = useState(null)
+  const [password, setPassword] = useState('')
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState('')
 
   const [loading, setLoading] = useState(false)
 
@@ -70,9 +74,9 @@ const SignInModal: React.FC<SignInModalProps> = ({
     signIn(email, password).then(() => {
       router.push('/')
       handleClose()
-      setEmail(null)
-      setPassword(null)
-      setError(null)
+      setEmail('')
+      setPassword('')
+      setError('')
     }).catch(({ message }) => {
       setError(message)
     }).finally(() => setLoading(false))

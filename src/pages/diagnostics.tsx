@@ -47,4 +47,6 @@ const Diagnostics: React.FC = () => {
   )
 }
 
+Diagnostics['auth'] = 'AUTHENTICATED'
+
 export default Diagnostics

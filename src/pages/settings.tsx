@@ -69,4 +69,6 @@ const Settings: React.FC = () => {
   )
 }
 
+Settings['auth'] = 'ADMIN'
+
 export default Settings

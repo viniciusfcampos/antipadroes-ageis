@@ -7,9 +7,12 @@ import styled from 'styled-components'
 import Logo from './Logo'
 import UserAvatar from './UserAvatar'
 import SignInModal from './SignInModal'
+import { useAuth } from '../contexts/AuthContext'
 
 const PageContainer = styled(Box)`
-  display: grid;
+  && {
+    display: grid;
+  }
 `
 
 const LogoWrapper = styled(Box)`
@@ -17,13 +20,15 @@ const LogoWrapper = styled(Box)`
 `
 
 const AppBar = styled(Container)`
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 1fr;
-  grid-gap: 2rem;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  justify-content: space-between;
+  && {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr;
+    grid-gap: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    justify-content: space-between;
+  }
 `
 
 const Links = styled(Box)`
@@ -31,13 +36,16 @@ const Links = styled(Box)`
   grid-auto-flow: column;
   grid-gap: 2rem;
 `
+
 const BodyContainer = styled(Container)`
   padding-top: 3rem;
   padding-bottom: 3rem;
 `
 
 const Layout: React.FC = ({ children }) => {
-  const [signInOpen, setSignInOpen] = useState<bool>(false)
+  const { authenticated, adminAuthenticated } = useAuth()
+
+  const [signInOpen, setSignInOpen] = useState<boolean>(false)
 
   const onUserAvatarClick = () => setSignInOpen(true)
 
@@ -53,16 +61,20 @@ const Layout: React.FC = ({ children }) => {
         </Box>
 
         <Links>
-          <Link href="/diagnostics">
-            <Button color="secondary" startIcon={<FolderRounded />}>
-              Diagnósticos
-            </Button>
-          </Link>
-          <Link href="/settings">
-            <Button color="secondary" startIcon={<SettingsRounded />}>
-              Configurações
-            </Button>
-          </Link>
+          {authenticated && (
+            <Link href="/diagnostics">
+              <Button color="secondary" startIcon={<FolderRounded />}>
+                Diagnósticos
+              </Button>
+            </Link>
+          )}
+          {adminAuthenticated && (
+            <Link href="/settings">
+              <Button color="secondary" startIcon={<SettingsRounded />}>
+                Configurações
+              </Button>
+            </Link>
+          )}
 
           <UserAvatar onOpenSignIn={onUserAvatarClick} />
         </Links>

@@ -7,8 +7,10 @@ import { Box } from '@mui/system'
 import { InfoOutlined, InfoRounded } from '@mui/icons-material'
 
 const Container = styled(MuiCard)`
-  padding: 1rem;
-  margin-bottom: 1rem;
+  && {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
 `
 
 const Header = styled(Box)`
@@ -25,13 +27,17 @@ const Header = styled(Box)`
 `
 
 const Name = styled(Typography)`
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.5rem 0;
+  && {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 0;
+  }
 `
 
 const Action = styled(Typography)`
-  font-size: 0.8rem;
+  && {
+    font-size: 0.8rem;
+  }
 `
 
 type CardProps = AntipatternAnswerType & {

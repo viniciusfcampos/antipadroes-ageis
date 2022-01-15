@@ -18,9 +18,11 @@ const LogoImage = styled(Box)`
 `
 
 const Title = styled(Typography)`
-  font-weight: 600;
-  font-size: 0.75rem;
-  display: block;
+  && {
+    font-weight: 600;
+    font-size: 0.75rem;
+    display: block;
+  }
 `
 
 const PrimaryTitle = styled(Title)`

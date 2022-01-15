@@ -31,15 +31,17 @@ export class UserService {
 
     return createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
-        localStorage.setItem('user', JSON.stringify(user))
+        return user
       })
       .catch(error => {
         const mesages = {
           'auth/invalid-email': 'Email inválido.',
-          'auth/weak-password': 'A senha deve ter ao menos 6 caracteres.'
+          'auth/weak-password': 'A senha deve ter ao menos 6 caracteres.',
+          'auth/email-already-in-use':
+            'Já existe um usuário com este email. Realize o login.'
         }
-
         const { code } = error
+        console.log(code)
 
         const message = mesages[code] || 'Usuário ou senha inválidos.'
 

@@ -35,4 +35,6 @@ const TeamDiagnostic: React.FC = () => {
   )
 }
 
+TeamDiagnostic['auth'] = 'AUTHENTICATED'
+
 export default TeamDiagnostic
