@@ -39,7 +39,6 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   identificationStrategy,
   practice,
   index,
-  answer,
   handleOnAnswer,
   idealAnswer,
   className
@@ -52,7 +51,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
     if (answer === 'true') answerValue = true
     else if (answer === 'sometimes') answerValue = !(idealAnswer === 'true')
-    
+
     setOptionOutlined(answer)
     handleOnAnswer(id, answerValue)
   }

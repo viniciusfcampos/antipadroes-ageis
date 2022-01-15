@@ -96,6 +96,13 @@ const materialTheme = createTheme({
           margin: '.5rem 0'
         }
       }
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: theme.colors.secondary
+        }
+      }
     }
   }
 })

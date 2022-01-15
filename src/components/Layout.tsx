@@ -2,9 +2,11 @@ import { FolderRounded, SettingsRounded } from '@mui/icons-material'
 import { Button, Container } from '@mui/material'
 import { Box } from '@mui/system'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Logo from './Logo'
+import UserAvatar from './UserAvatar'
+import SignInModal from './SignInModal'
 
 const PageContainer = styled(Box)`
   display: grid;
@@ -35,6 +37,10 @@ const BodyContainer = styled(Container)`
 `
 
 const Layout: React.FC = ({ children }) => {
+  const [signInOpen, setSignInOpen] = useState<bool>(false)
+
+  const onUserAvatarClick = () => setSignInOpen(true)
+
   return (
     <PageContainer>
       <AppBar>
@@ -57,9 +63,12 @@ const Layout: React.FC = ({ children }) => {
               Configurações
             </Button>
           </Link>
+
+          <UserAvatar onOpenSignIn={onUserAvatarClick} />
         </Links>
       </AppBar>
       <BodyContainer>{children}</BodyContainer>
+      <SignInModal open={signInOpen} handleClose={() => setSignInOpen(false)} />
     </PageContainer>
   )
 }

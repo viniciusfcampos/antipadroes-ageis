@@ -1,12 +1,12 @@
 import { ref, push, get, update, remove } from '@firebase/database'
-import database from '../utils/firebase'
+import { getDatabase } from '../utils/firebase'
 
 export class FirebaseService {
   private static getListWithId = data =>
     Object.keys(data || {}).map(key => ({ id: key, ...data[key] }))
 
   static get = async (route: string, listProperties = []) => {
-    const result = await get(ref(database, route))
+    const result = await get(ref(getDatabase(), route))
 
     const data = result.val() || {}
 
@@ -22,7 +22,7 @@ export class FirebaseService {
   }
 
   static getById = async (route: string, listProperties = []) => {
-    const result = await get(ref(database, route))
+    const result = await get(ref(getDatabase(), route))
 
     const data = result.val() || {}
 
@@ -34,14 +34,14 @@ export class FirebaseService {
   }
 
   static push = (route: string, body: any): string => {
-    return push(ref(database, route), body).key
+    return push(ref(getDatabase(), route), body).key
   }
 
   static update = (body: any) => {
-    update(ref(database), body)
+    update(ref(getDatabase()), body)
   }
 
   static remove = async (route: string) => {
-    await remove(ref(database, route))
+    await remove(ref(getDatabase(), route))
   }
 }
