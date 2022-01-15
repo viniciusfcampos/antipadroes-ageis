@@ -6,6 +6,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import DiagnosticsTable from '../components/DiagnosticsTable/DiagnosticsTable'
 import PageHeader from '../components/PageHeader'
+import { useAuth } from '../contexts/AuthContext'
 import { TeamsService } from '../services/TeamsService'
 import { TeamType } from '../types/TeamType'
 
@@ -18,11 +19,22 @@ const Card = styled(MuiCard)`
 `
 
 const Diagnostics: React.FC = () => {
+  const { user } = useAuth()
+
   const [diagnostics, setDiagnostics] = useState<TeamType[]>([])
 
   useEffect(() => {
-    TeamsService.getTeams().then(t => setDiagnostics(t.reverse()))
+    TeamsService.getTeams(user).then(t => {
+      setDiagnostics(t.reverse())
+    })
   }, [])
+
+  const onDelete = (teamId) => {
+    TeamsService.removeTeam(teamId).then(() => {
+      const newDiagnostics = diagnostics.filter(d => d.id !== teamId)
+      setDiagnostics(newDiagnostics)
+    })
+  }
 
   return (
     <>
@@ -41,7 +53,7 @@ const Diagnostics: React.FC = () => {
         }
       />
       <Card>
-        <DiagnosticsTable diagnostics={diagnostics} />
+        <DiagnosticsTable diagnostics={diagnostics} onDelete={onDelete} />
       </Card>
     </>
   )

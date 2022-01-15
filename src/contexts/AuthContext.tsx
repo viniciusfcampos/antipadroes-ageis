@@ -7,6 +7,7 @@ import React, {
 import { UserService } from '../services/UserService'
 import { initializeFirebase } from '../utils/firebase'
 
+
 const AuthContext = createContext({
   authenticated: false,
   adminAuthenticated: false,
@@ -14,13 +15,17 @@ const AuthContext = createContext({
   loading: true,
   signIn: async (email: string, password: string) => { },
   signUp: async (email: string, password: string) => { },
-  signOut: async () => { }
+  signOut: async () => { },
+  signInModal: { open: false, redirectTo: null },
+  setSignInModal: ({ open: boolean, redirectTo: string }) => { }
 })
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
 
   const [loading, setLoading] = useState(true)
+
+  const [signInModal, setSignInModal] = useState({ open: false, redirectTo: null })
 
   const router = useRouter()
 
@@ -33,8 +38,13 @@ const AuthProvider = ({ children }) => {
   const getUser = () => JSON.parse(localStorage.getItem('user'))
 
   const saveUser = (user) => {
-    localStorage.setItem('user', JSON.stringify(user))
-    setUser(user)
+    const userData = {
+      id: user.uid,
+      email: user.email,
+      isAdmin: user.email === 'admin@ufmg.br'
+    }
+    localStorage.setItem('user', JSON.stringify(userData))
+    setUser(userData)
   }
 
   const signIn = async (email, password) => UserService
@@ -53,12 +63,14 @@ const AuthProvider = ({ children }) => {
 
   const context = {
     authenticated: !!user,
-    adminAuthenticated: user && user.email === 'admin@ufmg.br',
+    adminAuthenticated: user && user.isAdmin,
     user,
     loading,
     signIn,
     signUp,
-    signOut
+    signOut,
+    signInModal,
+    setSignInModal
   }
 
   return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

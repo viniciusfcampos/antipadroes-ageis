@@ -36,11 +36,13 @@ const TableBody = styled(Box)`
 type DiagnosticsTableProps = {
   className?: string
   diagnostics: TeamType[]
+  onDelete: (teamId) => void
 }
 
 const DiagnosticsTable: React.FC<DiagnosticsTableProps> = ({
   className,
-  diagnostics
+  diagnostics,
+  onDelete
 }) => {
   const [filter, setFilter] = useState<string>(null)
 
@@ -80,7 +82,7 @@ const DiagnosticsTable: React.FC<DiagnosticsTableProps> = ({
       </TableHeader>
       <TableBody className={className}>
         {filteredDiagnostics.map(d => (
-          <DiagnosticItem key={d.id} {...d} />
+          <DiagnosticItem key={d.id} {...d} onDelete={() => onDelete(d.id)} />
         ))}
       </TableBody>
     </Table>

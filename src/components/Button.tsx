@@ -10,7 +10,7 @@ const TheButton = styled(MuiButton)`
 export type ButtonProps = {
   onClick: () => void,
   disabled?: boolean,
-  loading: boolean,
+  loading?: boolean,
   variant?: "text" | "outlined" | "contained",
 }
 

@@ -1,10 +1,10 @@
+import { InfoOutlined } from '@mui/icons-material'
 import { Card as MuiCard, Divider, Tooltip, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import React from 'react'
+import { Draggable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
-import { Draggable } from 'react-beautiful-dnd'
-import { Box } from '@mui/system'
-import { InfoOutlined, InfoRounded } from '@mui/icons-material'
 
 const Container = styled(MuiCard)`
   && {

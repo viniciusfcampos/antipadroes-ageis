@@ -16,6 +16,7 @@ import DiagnosticModal, {
   DiagnosticModalProps
 } from '../components/DiagnosticModal/DiagnosticModal'
 import PageHeader from '../components/PageHeader'
+import { useAuth } from '../contexts/AuthContext'
 import { PracticesService } from '../services/PracticesService'
 import { TeamsService } from '../services/TeamsService'
 import { AlertType } from '../types/AlertType'
@@ -39,11 +40,13 @@ const Practices = styled(Box)`
 type SelectedPracticesType =
   | {}
   | {
-      id: string
-      selected: boolean
-    }
+    id: string
+    selected: boolean
+  }
 
 const NewDiagnostic: React.FC = () => {
+  const { user } = useAuth()
+
   const [practices, setPractices] = useState<PracticeType[]>([])
 
   const [selectedPractices, setSelectedPractices] = useState<
@@ -108,8 +111,10 @@ const NewDiagnostic: React.FC = () => {
       })
       return
     }
+    console.log(user)
+    const userId = user.id
 
-    const id = await TeamsService.addTeam(team)
+    const id = await TeamsService.addTeam({ ...team, userId })
 
     const selectedPracticesList = Object.keys(selectedPractices)
       .filter(id => selectedPractices[id])
@@ -196,5 +201,7 @@ const NewDiagnostic: React.FC = () => {
     </>
   )
 }
+
+NewDiagnostic['auth'] = 'AUTHENTICATED'
 
 export default NewDiagnostic

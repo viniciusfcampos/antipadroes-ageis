@@ -17,17 +17,19 @@ const CarouselContainer = styled(Box)`
   transform: translateX(0);
   width: calc(300px + 32px);
 
-  & > * {
-    transform: scale(0.75);
-    margin: 0 -16px;
-    opacity: 0.5;
-    transition: all 0.3s ease-in-out;
-    user-select: none;
-
-    &.current {
-      transform: scale(1);
-      margin: 0 16px;
-      opacity: 1;
+  && {
+    & > * {
+      transform: scale(0.75);
+      margin: 0 -16px;
+      opacity: 0.5;
+      transition: all 0.3s ease-in-out;
+      user-select: none;
+      
+      &.current {
+        transform: scale(1);
+        margin: 0 16px;
+        opacity: 1;
+      }
     }
   }
 `

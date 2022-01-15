@@ -7,6 +7,8 @@ import PageHeader from '../components/PageHeader'
 import Link from 'next/link'
 import { AddCircleRounded } from '@mui/icons-material'
 import { Box } from '@mui/system'
+import { useAuth } from '../contexts/AuthContext'
+import { useRouter } from 'next/router'
 
 const Card = styled(MuiCard)`
   padding-top: 4rem;
@@ -27,6 +29,21 @@ const ButtonArea = styled(Box)`
 `
 
 const Home: React.FC = () => {
+  const router = useRouter()
+
+  const { authenticated, setSignInModal } = useAuth()
+
+  const onStartDiagnostic = () => {
+    const redirectTo = '/new-diagnostic'
+
+    if (authenticated) {
+      router.push(redirectTo)
+      return
+    }
+
+    setSignInModal({ open: true, redirectTo })
+  }
+
   return (
     <>
       <Head>
@@ -56,11 +73,9 @@ const Home: React.FC = () => {
         </Typography>
 
         <ButtonArea>
-          <Link href="/new-diagnostic">
-            <Button variant="contained" startIcon={<AddCircleRounded />}>
-              Realizar diagnóstico
-            </Button>
-          </Link>
+          <Button onClick={onStartDiagnostic} variant="contained" startIcon={<AddCircleRounded />}>
+            Realizar diagnóstico
+          </Button>
         </ButtonArea>
 
         <Divider />

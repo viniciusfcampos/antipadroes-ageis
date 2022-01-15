@@ -32,15 +32,14 @@ const Title = styled(Typography)`
 `
 
 type UserAvatarProps = {
-  onOpenSignIn: () => void
 }
 
-const UserAvatar: React.FC<UserAvatarProps> = ({ onOpenSignIn }) => {
-  const { authenticated, user, signOut } = useAuth()
+const UserAvatar: React.FC<UserAvatarProps> = ({ }) => {
+  const { authenticated, user, signOut, setSignInModal } = useAuth()
 
   if (!authenticated)
     return (
-      <IconButton onClick={onOpenSignIn}>
+      <IconButton onClick={() => setSignInModal({ open: true, redirectTo: '/' })}>
         <MuiAvatar />
       </IconButton>
     )

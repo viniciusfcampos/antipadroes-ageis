@@ -60,8 +60,10 @@ const materialTheme = createTheme({
     MuiModal: {
       styleOverrides: {
         backdrop: {
-          '-webkit-backdrop-filter': 'blur(16px)',
-          backgroundColor: 'rgba(0, 0, 0, .4)'
+          '&.blurred': {
+            '-webkit-backdrop-filter': 'blur(16px)',
+            backgroundColor: 'rgba(0, 0, 0, .4)'
+          }
         }
       }
     },

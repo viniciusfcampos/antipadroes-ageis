@@ -43,11 +43,7 @@ const BodyContainer = styled(Container)`
 `
 
 const Layout: React.FC = ({ children }) => {
-  const { authenticated, adminAuthenticated } = useAuth()
-
-  const [signInOpen, setSignInOpen] = useState<boolean>(false)
-
-  const onUserAvatarClick = () => setSignInOpen(true)
+  const { authenticated, adminAuthenticated, signInModal } = useAuth()
 
   return (
     <PageContainer>
@@ -76,11 +72,11 @@ const Layout: React.FC = ({ children }) => {
             </Link>
           )}
 
-          <UserAvatar onOpenSignIn={onUserAvatarClick} />
+          <UserAvatar />
         </Links>
       </AppBar>
       <BodyContainer>{children}</BodyContainer>
-      <SignInModal open={signInOpen} handleClose={() => setSignInOpen(false)} />
+      <SignInModal />
     </PageContainer>
   )
 }

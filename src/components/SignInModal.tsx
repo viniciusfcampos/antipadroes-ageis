@@ -25,10 +25,21 @@ const Card = styled(MuiCard)`
   padding-top: 3rem;
   padding-bottom: 3rem;
   width: 340px;
-  height: 400px;
   display: grid;
   align-content: center;
   grid-gap: 1rem;
+`
+
+const Header = styled(Box)`
+  .MuiTypography-h4 {
+    margin: 0;
+  }
+`
+
+const Question = styled(Box)`
+  p {
+    display: inline-block;
+  }
 `
 
 const ErrorArea = styled(Box)`
@@ -48,15 +59,11 @@ const CancelButton = styled(IconButton)`
   }
 `
 
-export type SignInModalProps = Partial<{
-  open: boolean
-  handleClose: () => void
-}>
+export type SignInModalProps = {}
 
-const SignInModal: React.FC<SignInModalProps> = ({
-  open,
-  handleClose
-}) => {
+const SignInModal: React.FC<SignInModalProps> = ({ }) => {
+  const [isSignIn, setIsSignIn] = useState(true)
+
   const [email, setEmail] = useState('')
 
   const [password, setPassword] = useState('')
@@ -67,19 +74,29 @@ const SignInModal: React.FC<SignInModalProps> = ({
 
   const router = useRouter()
 
-  const { signIn } = useAuth()
+  const { signIn, signUp, signInModal, setSignInModal } = useAuth()
 
-  const onSignIn = () => {
+  const handleClose = () => setSignInModal({ open: false, redirectTo: '/' })
+
+  const onContinue = () => {
+    const sign = isSignIn ? signIn : signUp
+
     setLoading(true)
-    signIn(email, password).then(() => {
-      router.push('/')
+    sign(email, password).then(() => {
       handleClose()
       setEmail('')
       setPassword('')
       setError('')
+      setIsSignIn(true)
+      router.push(signInModal.redirectTo)
     }).catch(({ message }) => {
       setError(message)
     }).finally(() => setLoading(false))
+  }
+
+  const handleModeChange = () => {
+    setIsSignIn(!isSignIn)
+    setError('')
   }
 
   const handleOnChange = (set, { target: { value } }) => {
@@ -88,14 +105,25 @@ const SignInModal: React.FC<SignInModalProps> = ({
   }
 
   return (
-    <Modal open={open}>
+    <Modal open={signInModal.open} BackdropProps={{ className: 'blurred' }}>
       <Container>
         <CancelButton onClick={handleClose} tabIndex={-1}>
           <CancelIcon />
         </CancelButton>
 
         <Card>
-          <Typography variant="h4">Login</Typography>
+          <Header>
+            <Typography variant="h4">{isSignIn ? 'Login' : 'Cadastro'}</Typography>
+            <Question>
+              <Typography variant="body2">
+                {isSignIn ? 'Ainda não é cadastrado?' : 'Já é cadastrado?'}
+              </Typography>
+              <Button onClick={handleModeChange}>
+                {isSignIn ? 'Cadastrar' : 'Entrar'}
+              </Button>
+            </Question>
+          </Header>
+
           <TextField
             variant="filled"
             label="Email"
@@ -117,7 +145,9 @@ const SignInModal: React.FC<SignInModalProps> = ({
           <ErrorArea>
             {error && <Typography variant='caption' color='error'>{error}</Typography>}
           </ErrorArea>
-          <Button onClick={onSignIn} variant="contained" loading={loading}>Entrar</Button>
+          <Button onClick={onContinue} variant="contained" loading={loading}>
+            {isSignIn ? 'Entrar' : 'Cadastrar'}
+          </Button>
         </Card>
       </Container>
     </Modal>

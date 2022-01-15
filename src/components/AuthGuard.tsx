@@ -12,7 +12,7 @@ const AuthGuard = ({ children, auth }) => {
   const hasPermission = user => {
     if (auth === 'AUTHENTICATED') return !!user
 
-    if (auth === 'ADMIN') return user?.email === 'admin@ufmg.br'
+    if (auth === 'ADMIN') return user?.isAdmin
   }
 
   useEffect(() => {

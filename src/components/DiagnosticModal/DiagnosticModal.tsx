@@ -74,7 +74,7 @@ const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
   }
 
   return (
-    <Modal open={open}>
+    <Modal open={open} BackdropProps={{ className: 'blurred' }}>
       <Container>
         <CancelButton onClick={handleCancel}>
           <CancelIcon />
