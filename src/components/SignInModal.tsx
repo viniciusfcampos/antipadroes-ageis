@@ -84,7 +84,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
 
   const handleOnChange = (set, { target: { value } }) => {
     set(value)
-    setError(false)
+    setError('')
   }
 
   return (

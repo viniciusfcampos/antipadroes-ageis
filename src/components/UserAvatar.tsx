@@ -28,7 +28,7 @@ const PopoverFooter = withTheme(styled(Box)`
 `)
 
 const Title = styled(Typography)`
-    font-weight: 600;
+    font-weight: 500;
 `
 
 type UserAvatarProps = {
