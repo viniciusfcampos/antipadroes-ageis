@@ -8,6 +8,7 @@ const Container = styled(Card)`
   display: grid;
   grid-auto-rows: 1fr auto;
   width: 320px;
+  grid-gap: 2rem;
 `
 
 const Message = styled(Box)`

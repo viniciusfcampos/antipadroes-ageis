@@ -1,5 +1,5 @@
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
-import { Button, Card as MuiCard, Divider, Typography } from '@mui/material'
+import { Button, Card as MuiCard, Divider, Typography, withTheme, useMediaQuery, useTheme } from '@mui/material'
 import styled from 'styled-components'
 import Head from 'next/head'
 import React from 'react'
@@ -9,12 +9,14 @@ import { AddCircleRounded } from '@mui/icons-material'
 import { Box } from '@mui/system'
 import { useAuth } from '../contexts/AuthContext'
 import { useRouter } from 'next/router'
+import clsx from 'clsx'
 
 const Card = styled(MuiCard)`
   padding-top: 4rem;
 
   .MuiTypography-root {
     margin-bottom: 1rem;
+    display: block;
   }
 
   .MuiDivider-root {
@@ -26,9 +28,18 @@ const ButtonArea = styled(Box)`
   padding: 2rem 0;
   display: grid;
   justify-content: start;
+
+  &.small {
+    justify-content: stretch;
+  }
 `
 
 const Home: React.FC = () => {
+
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   const router = useRouter()
 
   const { authenticated, setSignInModal } = useAuth()
@@ -72,7 +83,7 @@ const Home: React.FC = () => {
           eliminá-los que pode ser acompanhado por meio de um kanban.
         </Typography>
 
-        <ButtonArea>
+        <ButtonArea className={clsx({ small: smallScreen })}>
           <Button onClick={onStartDiagnostic} variant="contained" startIcon={<AddCircleRounded />}>
             Realizar diagnóstico
           </Button>

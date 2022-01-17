@@ -1,4 +1,4 @@
-import { Button, Card, Typography } from '@mui/material'
+import { Button, Card, Typography, useMediaQuery, useTheme } from '@mui/material'
 import styled, { withTheme } from 'styled-components'
 import React from 'react'
 import CardHeader from './CardHeader'
@@ -6,12 +6,17 @@ import { Box } from '@mui/system'
 import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
 import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded'
 import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded'
+import clsx from 'clsx'
 
 const Container = styled(Card)`
   width: 300px;
   height: 540px;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
+
+  &.small {
+    height: 440px;
+  }
 
   .MuiTypography-caption {
     margin-bottom: 1rem;
@@ -60,12 +65,16 @@ const ResultCard: React.FC<ResultCardProps> = ({
   handleOnAnswer,
   className
 }) => {
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   const onAnswer = (answer: boolean) => {
     handleOnAnswer(id, answer)
   }
 
   return (
-    <Container className={className}>
+    <Container className={clsx(className, { small: smallScreen })}>
       <CardHeader index={index} practice={practice} />
       <Typography variant="h6">{name}</Typography>
       <Content>

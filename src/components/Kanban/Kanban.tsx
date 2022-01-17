@@ -5,14 +5,20 @@ import { AntipatternAnswerType } from '../../types/AntipatternAnswerType'
 import { Status } from '../../utils/enums/Status'
 import Column from './Column'
 import { DragDropContext } from 'react-beautiful-dnd'
+import clsx from 'clsx'
+import { useMediaQuery, useTheme } from '@mui/material'
 
 const Container = styled(Box)`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(240px, 1fr));
   grid-gap: 0.5rem;
+  overflow-x: auto;
   height: 70vh;
   width: 100%;
-  overflow: hidden;
+  
+  &.small {
+    width: 90vw;
+  }
 `
 
 type KanbanProps = {
@@ -26,7 +32,12 @@ const Kanban: React.FC<KanbanProps> = ({
   onUpdate,
   className
 }) => {
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   const [columns, setColumns] = useState([])
+
   useEffect(() => {
     const list = antipatterns?.filter(a => a.useful).map(a => ({ ...a })) || []
     setColumns(createColumns(list))
@@ -91,7 +102,7 @@ const Kanban: React.FC<KanbanProps> = ({
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Container className={className}>
+      <Container className={clsx(className, { small: smallScreen })}>
         {columns.map(c => (
           <Column key={c.id} {...c} />
         ))}

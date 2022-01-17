@@ -1,5 +1,6 @@
-import { Typography } from '@mui/material'
+import { Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
+import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DiagnosticService } from '../../services/DiagnosticService'
@@ -17,8 +18,12 @@ const Container = styled(Box)`
   align-items: center;
   align-content: center;
   justify-items: center;
-  grid-gap: 4rem;
   overflow: hidden;
+  grid-gap: 4rem;
+
+  &.small {
+    grid-gap: 2rem;
+  }
 
   .MuiIconButton-root {
     .MuiSvgIcon-root {
@@ -30,6 +35,7 @@ const Container = styled(Box)`
 const Header = styled(Box)`
   text-align: center;
   user-select: none;
+  padding: 0 2rem;
   height: 80px;
 
   .MuiTypography-root {
@@ -49,6 +55,10 @@ const DiagnosticTab: React.FC<DiagnosticTabProps> = ({
   practices,
   onFinish
 }) => {
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   const [position, setPosition] = useState<number>(0)
 
   const [items, setItems] = useState<AntipatternAnswerType[]>([])
@@ -100,7 +110,7 @@ const DiagnosticTab: React.FC<DiagnosticTabProps> = ({
   }
 
   return (
-    <Container>
+    <Container className={clsx({ small: smallScreen })}>
       <Header>
         {items[position] && (
           <>

@@ -1,5 +1,5 @@
 import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
-import { Card as MuiCard, Button } from '@mui/material'
+import { Button, Card as MuiCard } from '@mui/material'
 import { styled } from '@mui/system'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -19,6 +19,7 @@ const Card = styled(MuiCard)`
 `
 
 const Diagnostics: React.FC = () => {
+
   const { user } = useAuth()
 
   const [diagnostics, setDiagnostics] = useState<TeamType[]>([])

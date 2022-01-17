@@ -1,8 +1,9 @@
-import { Typography } from '@mui/material'
+import { Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
 import styled from 'styled-components'
 import OriginalLogo from '../assets/logo.svg'
+
 
 const Container = styled(Box)`
   display: grid;
@@ -13,8 +14,8 @@ const Container = styled(Box)`
 
 const LogoImage = styled(Box)`
   fill: ${({ theme }) => theme.colors.primary};
-  height: 2rem;
-  width: 2rem;
+  height: 40px;
+  width: 40px;
 `
 
 const Title = styled(Typography)`
@@ -30,15 +31,21 @@ const PrimaryTitle = styled(Title)`
 `
 
 const Logo: React.FC = () => {
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   return (
     <Container>
       <LogoImage>
         <OriginalLogo />
       </LogoImage>
-      <Box>
-        <Title>Diagnóstico de Antipadrões</Title>
-        <PrimaryTitle>de Práticas Ágeis</PrimaryTitle>
-      </Box>
+      {!smallScreen && (
+        <Box>
+          <Title>Diagnóstico de Antipadrões</Title>
+          <PrimaryTitle>de Práticas Ágeis</PrimaryTitle>
+        </Box>
+      )}
     </Container>
   )
 }

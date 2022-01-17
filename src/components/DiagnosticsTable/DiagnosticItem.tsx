@@ -1,4 +1,4 @@
-import { IconButton, Menu, MenuItem, Typography } from '@mui/material'
+import { IconButton, Menu, MenuItem, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
 import styled, { withTheme } from 'styled-components'
@@ -8,6 +8,7 @@ import ContinueIcon from './ContinueIcon'
 import DashboardNumber from './DashboardNumber'
 import MiniKanban from '../MiniKanban'
 import { useRouter } from 'next/dist/client/router'
+import clsx from 'clsx'
 
 const Container = withTheme(styled(Box)`
   display: grid;
@@ -17,6 +18,11 @@ const Container = withTheme(styled(Box)`
   align-items: center;
   padding: 0.75rem 0 0.75rem 2rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.background};
+
+  &.small {
+    grid-template-columns: 1fr auto;
+    padding: 0.75rem 1rem;
+  }
 
   &:last-child {
     border-bottom: none;
@@ -50,6 +56,10 @@ const DiagnosticItem: React.FC<DiagnosticItemProps> = ({
   onDelete,
   className
 }) => {
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   const [contextMenu, setContextMenu] = useState(null);
 
   const router = useRouter()
@@ -81,13 +91,17 @@ const DiagnosticItem: React.FC<DiagnosticItemProps> = ({
   }
 
   return (
-    <Container onContextMenu={handleContextMenu} className={className}>
+    <Container onContextMenu={handleContextMenu} className={clsx({ small: smallScreen })}>
       <Identifier onClick={onRedirect}>
         <Typography variant="body1">{name}</Typography>
         <Typography variant="caption">{description}</Typography>
       </Identifier>
-      <DashboardNumber number={totalUseful} total={total} />
-      <MiniKanban antipatterns={antipatterns} />
+      {!smallScreen && (
+        <>
+          <DashboardNumber number={totalUseful} total={total} />
+          <MiniKanban antipatterns={antipatterns} />
+        </>
+      )}
       <ContinueIcon />
       <Menu
         open={contextMenu !== null}

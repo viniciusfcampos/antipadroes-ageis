@@ -37,10 +37,12 @@ const Tabs = styled(Box)`
 `
 
 const CancelButton = styled(IconButton)`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000;
+  && {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+  }
 `
 
 export type DiagnosticModalProps = Partial<{

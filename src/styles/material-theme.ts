@@ -62,6 +62,7 @@ const materialTheme = createTheme({
         backdrop: {
           '&.blurred': {
             '-webkit-backdrop-filter': 'blur(16px)',
+            'backdrop-filter': 'blur(16px)',
             backgroundColor: 'rgba(0, 0, 0, .4)'
           }
         }

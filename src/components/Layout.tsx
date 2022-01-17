@@ -1,5 +1,5 @@
 import { FolderRounded, SettingsRounded } from '@mui/icons-material'
-import { Button, Container } from '@mui/material'
+import { Button, Container, IconButton, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -8,6 +8,7 @@ import Logo from './Logo'
 import UserAvatar from './UserAvatar'
 import SignInModal from './SignInModal'
 import { useAuth } from '../contexts/AuthContext'
+import clsx from 'clsx'
 
 const PageContainer = styled(Box)`
   && {
@@ -35,6 +36,10 @@ const Links = styled(Box)`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 2rem;
+
+  &.small {
+    grid-gap: 1rem;
+  }
 `
 
 const BodyContainer = styled(Container)`
@@ -43,7 +48,11 @@ const BodyContainer = styled(Container)`
 `
 
 const Layout: React.FC = ({ children }) => {
-  const { authenticated, adminAuthenticated, signInModal } = useAuth()
+  const { authenticated, adminAuthenticated } = useAuth()
+
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <PageContainer>
@@ -56,28 +65,49 @@ const Layout: React.FC = ({ children }) => {
           </Link>
         </Box>
 
-        <Links>
+        <Links className={clsx({ small: smallScreen })}>
           {authenticated && (
-            <Link href="/diagnostics">
-              <Button color="secondary" startIcon={<FolderRounded />}>
-                Diagnósticos
-              </Button>
-            </Link>
+            <>
+              {smallScreen && (
+                <Link href="/diagnostics">
+                  <IconButton color="secondary">
+                    <FolderRounded />
+                  </IconButton>
+                </Link>
+              )}
+              {!smallScreen && (
+                <Link href="/diagnostics">
+                  <Button color="secondary" startIcon={<FolderRounded />}>
+                    Diagnósticos
+                  </Button>
+                </Link>
+              )}
+            </>
           )}
           {adminAuthenticated && (
-            <Link href="/settings">
-              <Button color="secondary" startIcon={<SettingsRounded />}>
-                Configurações
-              </Button>
-            </Link>
+            <>
+              {smallScreen && (
+                <Link href="/settings">
+                  <IconButton color="secondary">
+                    <SettingsRounded />
+                  </IconButton>
+                </Link>
+              )}
+              {!smallScreen && (
+                <Link href="/settings">
+                  <Button color="secondary" startIcon={<SettingsRounded />}>
+                    Configurações
+                  </Button>
+                </Link>
+              )}
+            </>
           )}
-
           <UserAvatar />
         </Links>
-      </AppBar>
+      </AppBar >
       <BodyContainer>{children}</BodyContainer>
       <SignInModal />
-    </PageContainer>
+    </PageContainer >
   )
 }
 

@@ -1,5 +1,6 @@
-import { Typography } from '@mui/material'
+import { Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
+import clsx from 'clsx'
 import { useRouter } from 'next/dist/client/router'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -18,6 +19,10 @@ const Container = styled(Box)`
   justify-items: center;
   grid-gap: 4rem;
 
+  &.small {
+    grid-gap: 2rem;
+  }
+
   .MuiIconButton-root {
     .MuiSvgIcon-root {
       fill: white;
@@ -28,8 +33,8 @@ const Container = styled(Box)`
 const Header = styled(Box)`
   text-align: center;
   user-select: none;
-  height: 100px;
   max-width: 580px;
+  padding: 0 2rem;
 
   .MuiTypography-root {
     color: white;
@@ -43,6 +48,10 @@ export type ResultsTabProps = Partial<{
 }>
 
 const ResultsTab: React.FC<ResultsTabProps> = ({ team, teamAntipatterns }) => {
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   const router = useRouter()
 
   const [position, setPosition] = useState<number>(0)
@@ -78,7 +87,7 @@ const ResultsTab: React.FC<ResultsTabProps> = ({ team, teamAntipatterns }) => {
   }
 
   return (
-    <Container>
+    <Container className={clsx({ small: smallScreen })}>
       <Header>
         <Typography variant="h4">Resultado</Typography>
         <Typography variant="caption">

@@ -1,13 +1,18 @@
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { IconButton, Typography } from '@mui/material'
+import { IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
+import clsx from 'clsx'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 const Container = styled(Box)`
   display: grid;
   grid-gap: 4rem;
+
+  &.small {
+    grid-gap: 2rem;
+  }
 `
 
 const CarouselContainer = styled(Box)`
@@ -65,6 +70,10 @@ const Carousel: React.FC<CarouselProps> = ({
   handleChangePosition,
   children
 }) => {
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   const getCarouselPosition = () => {
     const translateDueToCard = -300 * 0.75 * position
     const translateDueToMargin = -43 * position
@@ -80,7 +89,7 @@ const Carousel: React.FC<CarouselProps> = ({
   }
 
   return (
-    <Container>
+    <Container className={clsx({ small: smallScreen })}>
       <CarouselContainer style={{ transform: getCarouselPosition() }}>
         {styleChildren()}
       </CarouselContainer>

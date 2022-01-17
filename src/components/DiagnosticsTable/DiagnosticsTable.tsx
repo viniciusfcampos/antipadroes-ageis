@@ -1,5 +1,5 @@
 import { SearchOffRounded } from '@mui/icons-material'
-import { Input, TextField, Typography } from '@mui/material'
+import { Input, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { withTheme } from 'styled-components'
@@ -7,6 +7,7 @@ import { TeamType } from '../../types/TeamType'
 import SearchField from '../SearchField'
 import DiagnosticItem from './DiagnosticItem'
 import styled from 'styled-components'
+import clsx from 'clsx'
 
 const Table = styled(Box)`
   display: grid;
@@ -27,6 +28,16 @@ const TableHeader = withTheme(styled(Box)`
     text-align: center;
     line-height: 1.5;
   }
+
+  &.small {
+    grid-template-columns: 1fr;
+    padding: 0.75rem 1rem;
+    grid-gap: 0;
+
+    .MuiTypography-root {
+      display: none;
+    }
+  }
 `)
 
 const TableBody = styled(Box)`
@@ -44,6 +55,10 @@ const DiagnosticsTable: React.FC<DiagnosticsTableProps> = ({
   diagnostics,
   onDelete
 }) => {
+  const theme = useTheme()
+
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   const [filter, setFilter] = useState<string>(null)
 
   const [filteredDiagnostics, setFilteredDiagnostics] = useState<TeamType[]>([])
@@ -70,7 +85,7 @@ const DiagnosticsTable: React.FC<DiagnosticsTableProps> = ({
 
   return (
     <Table>
-      <TableHeader>
+      <TableHeader className={clsx({ small: smallScreen })}>
         <SearchField
           placeholder="Time"
           value={filter}
