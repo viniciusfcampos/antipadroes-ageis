@@ -58,7 +58,7 @@ const Home: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Home</title>
+        <title>Diagnóstico de Antipadrões de Práticas Ágeis</title>
       </Head>
       <PageHeader icon={<HomeRoundedIcon />} title="Home" />
       <Card>
